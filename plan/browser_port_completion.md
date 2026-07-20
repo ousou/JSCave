@@ -148,26 +148,26 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 6. Strengthen renderer commands, pixels, and visual references
 
-- [ ] Expand the recording canvas context so tests capture property assignments
+- [x] Expand the recording canvas context so tests capture property assignments
   and ordered operations, then add failing assertions for exact colors, fonts,
   coordinates, line width, layer order, all three player lines, obstacle
   placement, death rings, `GameOver`, and conditional `HiScore!!`.
-- [ ] Add deterministic real-browser `getImageData` tests for stable non-text
+- [x] Add deterministic real-browser `getImageData` tests for stable non-text
   landmarks and palette colors on title, initial game, mid-game, collision, and
   game-over frames.
-- [ ] Add a masked logical-pixel checksum for every named frame, excluding
+- [x] Add a masked logical-pixel checksum for every named frame, excluding
   documented font-sensitive rectangles while retaining geometry and palette
   coverage.
-- [ ] Add screenshot capture at forced 1× and 4× for every named frame; assert
+- [x] Add screenshot capture at forced 1× and 4× for every named frame; assert
   dimensions and nearest-neighbor block expansion, and store reviewed reference
   images under `reference/`.
-- [ ] Inspect the generated captures against `reference/title-1x.png`,
+- [x] Inspect the generated captures against `reference/title-1x.png`,
   `reference/title-4x.png`, and the Java drawing specification; document any
   accepted font-only differences.
-- [ ] Fix renderer discrepancies exposed by command, pixel, or screenshot tests.
-- [ ] Run renderer unit tests and browser pixel/screenshot tests twice at 1× and
+- [x] Fix renderer discrepancies exposed by command, pixel, or screenshot tests.
+- [x] Run renderer unit tests and browser pixel/screenshot tests twice at 1× and
   4× and verify stable non-text checksums.
-- [ ] Commit the verified renderer tests and reviewed browser reference images.
+- [x] Commit the verified renderer tests and reviewed browser reference images.
 
 ### 7. Verify standalone, offline, and deterministic packaging
 

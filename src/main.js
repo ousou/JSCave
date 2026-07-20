@@ -51,7 +51,14 @@
       if (name === 'title') { engine.setState(0); controller.advance(); }
       else {
         engine.setState(1); controller.advance();
-        if (name === 'collision') { engine.y = -1; controller.advance(); }
+        if (name === 'mid-game') {
+          engine.spaceDown(); for (let tick = 0; tick < 4; tick += 1) controller.advance();
+          engine.spaceUp(); for (let tick = 0; tick < 8; tick += 1) controller.advance();
+        }
+        if (name === 'collision' || name === 'game-over') {
+          for (let tick = 0; tick < 6; tick += 1) controller.advance();
+          engine.y = -1; controller.advance();
+        }
         if (name === 'game-over') {
           engine.setState(2); engine.y = 50;
           for (let tick = 0; tick < 20; tick += 1) controller.advance();

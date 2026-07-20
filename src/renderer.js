@@ -2,7 +2,7 @@
 (function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   const STATE = { TITLE: 0, GAME: 1, OVER: 2 };
   class Renderer {
-    constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; }
+    constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; this.ctx.lineWidth = 1; }
     color(value) { this.ctx.fillStyle = value; this.ctx.strokeStyle = value; }
     text(font, color, text, x, y) { this.ctx.font = font; this.color(color); this.ctx.fillText(text, x, y); }
     render(game) { if (game.gameCount === 0) return; if (game.state === STATE.TITLE) this.title(game); else if (game.state === STATE.GAME) this.game(game); else this.over(game); }

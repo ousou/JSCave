@@ -8,7 +8,9 @@ import java.awt.Event;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.ImageObserver;
@@ -18,6 +20,7 @@ extends Applet
 implements Runnable {
     static final int SizeX = 128;
     static final int SizeY = 160;
+    static final int DisplayScale = 4;
     static final int SLeft = 0;
     static final int STop = 0;
     static final int TimeOut = 100;
@@ -56,7 +59,7 @@ implements Runnable {
                 System.exit(0);
             }
         });
-        commandLineApplet.resize(128, 160);
+        commandLineApplet.resize(SizeX * DisplayScale, SizeY * DisplayScale);
         ComApplet.pack();
         ComApplet.setVisible(true);
 
@@ -66,7 +69,7 @@ implements Runnable {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(SizeX, SizeY);
+        return new Dimension(SizeX * DisplayScale, SizeY * DisplayScale);
     }
     
     public void start() {
@@ -109,6 +112,7 @@ implements Runnable {
     public boolean mouseDown(Event event, int n, int n2) {
         this.mouseX = n;
         this.mouseY = n2;
+        this.requestFocusInWindow();
         this.mousePushed = true;
         this.mouseClicked = true;
         return true;
@@ -304,13 +308,16 @@ implements Runnable {
     }
 
     public void init() {
-        this.resize(128, 160);
+        this.setFocusable(true);
+        this.resize(SizeX * DisplayScale, SizeY * DisplayScale);
         this.OffScreen = this.createImage(128, 160);
         this.Canvas = this.OffScreen.getGraphics();
     }
 
     public void update(Graphics graphics) {
         this.OnPeriod();
-        graphics.drawImage(this.OffScreen, 0, 0, this);
+        Graphics2D graphics2D = (Graphics2D)graphics;
+        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        graphics2D.drawImage(this.OffScreen, 0, 0, SizeX * DisplayScale, SizeY * DisplayScale, this);
     }
 }

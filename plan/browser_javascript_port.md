@@ -150,7 +150,7 @@ the source page and that release artifact.
   but the exact number and order of random draws on each tick.
 - [x] Implement one-tick gameplay advancement with explicit Java-compatible
   numeric conversion where `(int)` truncation matters.
-- [ ] Add failing boundary tests for the player center at the top and bottom
+- [x] Add failing boundary tests for the player center at the top and bottom
   opening edges and immediately outside them, plus obstacle top/bottom edges
   and interior pixels at collision column 8.
 - [x] Implement collision detection exactly as the Java boolean expression,

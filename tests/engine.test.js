@@ -33,3 +33,10 @@ test('game cave, obstacle, collision, and automatic restart preserve Java orderi
   for (let i = 0; i < 100; i += 1) game.tick();
   assert.equal(game.state, STATE.TITLE);
 });
+
+test('collision boundaries retain Java inclusive cave and obstacle edges', () => {
+  const game = new Engine(() => .5);
+  game.map[0][8] = 10; game.map[1][8] = 90; game.map[2][8] = 40;
+  for (const y of [10, 40, 56, 90]) { game.y = y; assert.equal(game.isSafeAtCollisionColumn(), true, `safe at ${y}`); }
+  for (const y of [9, 41, 55, 91]) { game.y = y; assert.equal(game.isSafeAtCollisionColumn(), false, `collides at ${y}`); }
+});

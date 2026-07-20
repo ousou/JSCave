@@ -53,8 +53,11 @@
       this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.random() * (this.caveHeight - 16) + this.caveTop) : -1;
       this.trailStartY = this.oldY;
       this.oldY = this.y;
+      if (!this.isSafeAtCollisionColumn()) this.setState(STATE.OVER);
+    }
+    isSafeAtCollisionColumn() {
       const [top, bottom, obstacle] = [this.map[0][8], this.map[1][8], this.map[2][8]];
-      if (!(this.y >= top && bottom >= this.y && (obstacle === -1 || obstacle >= this.y || this.y >= obstacle + 16))) this.setState(STATE.OVER);
+      return this.y >= top && bottom >= this.y && (obstacle === -1 || obstacle >= this.y || this.y >= obstacle + 16);
     }
     overTick() {
       if (this.gameCount === 1) this.latch = false;

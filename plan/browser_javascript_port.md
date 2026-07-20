@@ -244,7 +244,7 @@ the source page and that release artifact.
 - [ ] From a clean checkout, run the documented full suite, direct-file smoke
   test, local-server smoke test, Java reference compilation, and artifact
   integrity/no-network check.
-- [ ] Commit the verified documentation and release instructions.
+- [x] Commit the verified documentation and release instructions.
 
 ## Acceptance criteria
 

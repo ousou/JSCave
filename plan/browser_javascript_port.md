@@ -94,16 +94,16 @@ the source page and that release artifact.
 
 ### 1. Record the Java behavior as an executable specification
 
-- [ ] Add a concise behavior/parity document that transcribes every constant,
+- [x] Add a concise behavior/parity document that transcribes every constant,
   initial value, state transition, tick order, random-number consumption point,
   draw coordinate, collision boundary, scoring rule, and restart latch from
   `JavaCave.java`; explicitly note Java integer truncation and inclusive
   comparisons that JavaScript must reproduce.
-- [ ] Add table-driven characterization cases for title-to-game, acceleration
+- [x] Add table-driven characterization cases for title-to-game, acceleration
   clamps, cave movement bounds, every-10-ticks narrowing/obstacle creation,
   safe and colliding obstacle edges, score increments, death animation timing,
   high-score promotion, click-to-restart, and the 100-tick automatic return.
-- [ ] Compile the unchanged Java source with `javac -Xlint:all JavaCave.java`
+- [x] Compile the unchanged Java source with `javac -Xlint:all JavaCave.java`
   and, where the environment permits, capture reference title screens at 1×
   and 4× using `AUTOMATION.md`; record expected warnings and capture dimensions.
 - [ ] Commit the verified specification, characterization fixtures, and any

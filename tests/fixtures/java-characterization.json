@@ -1,0 +1,18 @@
+{
+  "writer": "Codex on behalf of Sebastian",
+  "cases": [
+    {"name":"title-to-game","given":"released title then pointer down","expect":{"state":"game","gameCount":0}},
+    {"name":"acceleration-clamps","given":"held/released beyond limits","expect":{"velocityRange":[-8,8]}},
+    {"name":"cave-reflection","given":"top or bottom boundary crossing","expect":{"topRange":[1,"126-mh"],"velocityReflects":true}},
+    {"name":"tenth-tick","given":"gameCount divisible by 10","expect":{"heightDelta":-1,"obstacleHeight":16}},
+    {"name":"safe-obstacle-edge","given":"y=obstacle or y=obstacle+16","expect":{"collision":false}},
+    {"name":"colliding-obstacle-interior","given":"obstacle < y < obstacle+16 at column 8","expect":{"collision":true}},
+    {"name":"opening-edges","given":"y=top or y=bottom at column 8","expect":{"collision":false}},
+    {"name":"outside-opening","given":"y<top or y>bottom at column 8","expect":{"collision":true}},
+    {"name":"score","given":"one game tick","expect":{"scoreDelta":3}},
+    {"name":"death-animation","given":"game-over ticks 1..20","expect":{"rings":[1,19],"textTick":20}},
+    {"name":"high-score","given":"title tick 1 after a higher score","expect":{"highScorePromoted":true}},
+    {"name":"click-restart","given":"released input then click after game-over tick 20","expect":{"state":"title"}},
+    {"name":"automatic-return","given":"game-over tick 100","expect":{"forcedClick":true,"nextTickState":"title"}}
+  ]
+}

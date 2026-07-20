@@ -7,5 +7,11 @@
   const scale = () => window.JavaCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
   scale();
   window.addEventListener('resize', scale);
+  const engine = new window.JavaCaveEngine.Engine();
+  const renderer = new window.JavaCaveRenderer.Renderer(canvas.getContext('2d'));
+  const controller = new window.JavaCaveController.Controller({ engine, renderer, canvas });
+  controller.bind();
+  controller.start();
+  window.JavaCave = { engine, renderer, controller };
   canvas.dataset.ready = 'true';
 })();

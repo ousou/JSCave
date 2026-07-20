@@ -1,0 +1,3 @@
+// Written by Codex on behalf of Sebastian.
+const assert = require('node:assert/strict'); const test = require('node:test'); const { Controller } = require('../src/controller.js');
+test('controller runs exactly one tick per 100ms timer and is idempotent', () => { let callback; let cleared; const scheduler = { setInterval(fn, ms) { callback = fn; assert.equal(ms, 100); return 9; }, clearInterval(id) { cleared = id; } }; let ticks = 0; const controller = new Controller({ engine: { tick() { ticks += 1; } }, renderer: { render() {} }, scheduler, canvas: { addEventListener() {} } }); controller.start(); controller.start(); assert.equal(ticks, 1); callback(); assert.equal(ticks, 2); controller.stop(); controller.stop(); assert.equal(cleared, 9); });

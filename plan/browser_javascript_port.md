@@ -131,46 +131,46 @@ the source page and that release artifact.
 
 ### 3. Port the deterministic state machine and input latch
 
-- [ ] Add failing Node tests for initial title state, tick counters, mouse/
+- [x] Add failing Node tests for initial title state, tick counters, mouse/
   pointer press and release, Space press and release, combined inputs, the
   fresh-click latch, title-to-game transition, and state counter reset.
-- [ ] Implement the dependency-free engine state container and input API,
+- [x] Implement the dependency-free engine state container and input API,
   preserving Java's state names, first-tick initialization semantics, and
   transition ordering while giving JavaScript fields descriptive names.
-- [ ] Run the state/input unit tests and the browser smoke check.
-- [ ] Commit the verified state machine and input-latch port.
+- [x] Run the state/input unit tests and the browser smoke check.
+- [x] Commit the verified state machine and input-latch port.
 
 ### 4. Port flight physics, cave generation, scoring, and collisions
 
-- [ ] Add failing unit tests for thrust/fall acceleration, velocity limits
+- [x] Add failing unit tests for thrust/fall acceleration, velocity limits
   `-8...8`, vertical position updates, `Score += 3`, the 32 four-pixel cave
   columns, initial opening, cave-width decrement, random movement changes,
   upper/lower cave reflection, column scrolling, and obstacle placement.
-- [ ] Add a scripted-random test double that asserts not only resulting values
+- [x] Add a scripted-random test double that asserts not only resulting values
   but the exact number and order of random draws on each tick.
-- [ ] Implement one-tick gameplay advancement with explicit Java-compatible
+- [x] Implement one-tick gameplay advancement with explicit Java-compatible
   numeric conversion where `(int)` truncation matters.
 - [ ] Add failing boundary tests for the player center at the top and bottom
   opening edges and immediately outside them, plus obstacle top/bottom edges
   and interior pixels at collision column 8.
-- [ ] Implement collision detection exactly as the Java boolean expression,
+- [x] Implement collision detection exactly as the Java boolean expression,
   including its edge inclusivity, and transition to game over only after the
   collision tick's score and cave updates have occurred.
 - [ ] Run the complete engine suite with fixed random sequences and add a
   multi-hundred-tick replay checksum so accidental changes to difficulty,
   random consumption, or tick ordering are detected.
-- [ ] Commit the verified gameplay simulation.
+- [x] Commit the verified gameplay simulation.
 
 ### 5. Port title, cave, player, score, and game-over rendering
 
-- [ ] Add a recording Canvas-context test double and failing tests for the
+- [x] Add a recording Canvas-context test double and failing tests for the
   ordered drawing commands, colors, fonts, coordinates, line widths, text, and
   per-state layers on representative ticks.
-- [ ] Implement the 128 × 160 off-screen canvas renderer, including title pulse
+- [x] Implement the 128 × 160 off-screen canvas renderer, including title pulse
   and randomized blue component, initial striped cave, four-pixel scrolling,
   obstacles, three-line player trail, score strip, expanding red death rings,
   `GameOver`, and conditional `HiScore!!`.
-- [ ] Preserve Java `copyArea` semantics with a scratch buffer or an equivalent
+- [x] Preserve Java `copyArea` semantics with a scratch buffer or an equivalent
   verified full redraw so overlapping self-copy behavior does not vary between
   browsers.
 - [ ] Add real-browser pixel tests for stable non-text landmarks and palette
@@ -186,13 +186,13 @@ the source page and that release artifact.
 
 ### 6. Connect production timing and browser controls
 
-- [ ] Add failing controller tests with a fake scheduler for a 100 ms cadence,
+- [x] Add failing controller tests with a fake scheduler for a 100 ms cadence,
   start/stop idempotence, no duplicate timers, and deterministic one-tick
   advancement.
 - [ ] Add failing browser tests that dispatch pointer down/up/cancel and Space
   down/up, verify Space does not scroll the page, verify pointer focus, and
   verify input is released on window blur or page visibility loss.
-- [ ] Implement the controller using browser timers and Pointer Events, connect
+- [x] Implement the controller using browser timers and Pointer Events, connect
   it to the engine and renderer, and use pointer capture where supported so a
   release outside the canvas cannot leave thrust stuck.
 - [ ] Add a scripted end-to-end replay that starts from the title through real

@@ -35,13 +35,17 @@ test('CDP helper controls file and HTTP pages, input, viewport, pixels, screensh
     })()`), 0);
     const before = await browser.canvasPixels('#game', 0, 0, 1, 1);
     assert.equal(before.length, 4);
-    await browser.pointer('down', 10, 10);
-    await browser.pointer('up', 10, 10);
+    const rect = await browser.evaluate(`(() => {
+      const value = document.querySelector('#game').getBoundingClientRect();
+      return { x: value.left, y: value.top, width: value.width, height: value.height };
+    })()`);
+    await browser.pointer('down', rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await browser.pointer('up', rect.x + rect.width / 2, rect.y + rect.height / 2);
     assert.equal(await browser.evaluate('JavaCave.test.advance().state'), 1, 'title-to-game transition must not freeze');
     assert.equal(await browser.evaluate('JavaCave.test.advance().gameCount'), 1);
     await browser.key('Space');
     await browser.key('Space', 'keyUp');
-    const png = await browser.screenshot({ x: 0, y: 0, width: 128, height: 160 });
+    const png = await browser.screenshot(rect);
     assert.deepEqual([...png.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
 
     const { port } = server.address();

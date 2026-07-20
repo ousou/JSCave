@@ -91,25 +91,25 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 3. Implement accessible Enter activation and test all controls
 
-- [ ] Add failing engine/controller unit tests for activation separate from
+- [x] Add failing engine/controller unit tests for activation separate from
   thrust: Enter activation on title, ignored activation during gameplay,
   game-over delay enforcement, return to title after the delay, no Enter
   key-repeat action, and unchanged Space/pointer state.
-- [ ] Add failing real-browser tests that Tab-focus the canvas and dispatch
+- [x] Add failing real-browser tests that Tab-focus the canvas and dispatch
   pointer down/up/cancel plus Space down/up and Enter down/up; assert default
   prevention, canvas focus, pointer capture when supported, and exact engine
   input state after every event.
-- [ ] Add failing browser tests proving blur and hidden-page transitions release
+- [x] Add failing browser tests proving blur and hidden-page transitions release
   thrust, focus on the scale selector does not control the game or suppress its
   normal Space behavior, and rapid alternating inputs cannot leave thrust stuck.
-- [ ] Implement Enter activation in the engine/controller while scoping game
+- [x] Implement Enter activation in the engine/controller while scoping game
   keyboard handling to the focused canvas and preserving pointer-to-focus
   behavior.
-- [ ] Update visible control help and accessibility labeling to explain
+- [x] Update visible control help and accessibility labeling to explain
   “Enter to start/restart; hold Space or pointer to fly.”
-- [ ] Run engine, controller, DOM-input, accessibility, and browser smoke tests
+- [x] Run engine, controller, DOM-input, accessibility, and browser smoke tests
   in Chrome.
-- [ ] Commit the verified keyboard activation and input handling change.
+- [x] Commit the verified keyboard activation and input handling change.
 
 ### 4. Add complete deterministic browser state-cycle tests
 

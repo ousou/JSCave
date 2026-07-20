@@ -1,6 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
-<canvas id="game" width="128" height="160" aria-label="JavaCave game"></canvas>
+<canvas id="game" width="128" height="160" tabindex="0" aria-label="JavaCave game. Enter to start or restart; hold Space or pointer to fly."></canvas>
 <script>
   const scale = new URLSearchParams(location.search).get('scale');
   window.JavaCaveTestOptions = { scaleMode: scale === null ? 'auto' : Number(scale), testApi: true };

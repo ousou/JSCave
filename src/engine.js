@@ -20,6 +20,10 @@
     pointerUp() { this.pointerPressed = false; }
     spaceDown() { this.keyPressed = true; }
     spaceUp() { this.keyPressed = false; }
+    activate() {
+      if (this.state === STATE.TITLE) this.setState(STATE.GAME);
+      else if (this.state === STATE.OVER && this.gameCount > 20) this.setState(STATE.TITLE);
+    }
     releaseInput() { this.pointerUp(); this.spaceUp(); }
     tick() {
       this.gameCount += 1;

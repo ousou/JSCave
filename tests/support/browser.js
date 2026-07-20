@@ -192,6 +192,16 @@ class CdpBrowser {
     return this.command('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
   }
 
+  async touch(type, x, y) {
+    const protocolType = { start: 'touchStart', end: 'touchEnd', cancel: 'touchCancel' }[type];
+    if (!protocolType) throw new RangeError(`unsupported touch event: ${type}`);
+    await this.command('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+    return this.command('Input.dispatchTouchEvent', {
+      type: protocolType,
+      touchPoints: type === 'start' ? [{ x, y, radiusX: 1, radiusY: 1, force: 1, id: 1 }] : [],
+    });
+  }
+
   async canvasPixels(selector = '#game', x = 0, y = 0, width = 128, height = 160) {
     return this.evaluate(`(() => {
       const canvas = document.querySelector(${JSON.stringify(selector)});

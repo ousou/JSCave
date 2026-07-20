@@ -40,3 +40,21 @@ test('collision boundaries retain Java inclusive cave and obstacle edges', () =>
   for (const y of [10, 40, 56, 90]) { game.y = y; assert.equal(game.isSafeAtCollisionColumn(), true, `safe at ${y}`); }
   for (const y of [9, 41, 55, 91]) { game.y = y; assert.equal(game.isSafeAtCollisionColumn(), false, `collides at ${y}`); }
 });
+
+test('activation is separate from thrust and enforces game-over delay', () => {
+  const game = new Engine(() => .5);
+  game.activate();
+  assert.equal(game.state, STATE.GAME);
+  assert.equal(game.thrusting, false);
+  game.activate();
+  assert.equal(game.state, STATE.GAME);
+  game.setState(STATE.OVER);
+  game.activate();
+  assert.equal(game.state, STATE.OVER);
+  for (let tick = 0; tick < 21; tick += 1) game.tick();
+  game.activate();
+  assert.equal(game.state, STATE.TITLE);
+  assert.equal(game.thrusting, false);
+  game.activate();
+  assert.equal(game.state, STATE.GAME);
+});

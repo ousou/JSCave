@@ -190,21 +190,21 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 8. Add Chrome/Firefox compatibility and repeatability gates
 
-- [ ] Add a browser capability probe that requires Chrome, runs Firefox when
+- [x] Add a browser capability probe that requires Chrome, runs Firefox when
   available, and reports an explicit test skip—with the searched executable
   names—when Firefox is absent.
-- [ ] Add an HTTP compatibility harness that reports script load, canvas
+- [x] Add an HTTP compatibility harness that reports script load, canvas
   rendering, title-to-game startup, Enter/Space input, fixed scaling, and
   console/runtime failures back to the Node test server in both browsers.
-- [ ] Run direct-file, CDP integration, pixel, and screenshot tests in Chrome;
+- [x] Run direct-file, CDP integration, pixel, and screenshot tests in Chrome;
   run the portable smoke/state/input assertions in Firefox without pretending
   unsupported automation features were exercised.
-- [ ] Add a bounded repeatability command that runs seeded engine, browser
+- [x] Add a bounded repeatability command that runs seeded engine, browser
   state-cycle, standalone, and compatibility tests at least ten times and fails
   on checksum drift, timeout, browser crash, or leaked process.
-- [ ] Run the repeatability gate in the current environment and record Chrome
+- [x] Run the repeatability gate in the current environment and record Chrome
   and Firefox versions in the verification output.
-- [ ] Commit the verified cross-browser and repeatability checks.
+- [x] Commit the verified cross-browser and repeatability checks.
 
 ### 9. Finish documentation and release verification
 

@@ -72,22 +72,22 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 2. Add dependency-free real-browser automation
 
-- [ ] Add failing tests for a Node standard-library Chrome DevTools Protocol
+- [x] Add failing tests for a Node standard-library Chrome DevTools Protocol
   helper that launches an isolated headless browser, navigates `file:` and HTTP
   pages, evaluates JavaScript, dispatches genuine pointer/keyboard input,
   resizes the viewport, records network requests and console errors, reads
   canvas pixels, and captures clipped screenshots.
-- [ ] Implement the helper with temporary browser profiles, bounded timeouts,
+- [x] Implement the helper with temporary browser profiles, bounded timeouts,
   deterministic cleanup, Node 22 WebSocket support, and actionable diagnostics
   when Chrome fails or a page becomes unresponsive.
-- [ ] Add a small in-page deterministic test API that can stop/start the clock,
+- [x] Add a small in-page deterministic test API that can stop/start the clock,
   supply scripted randomness, advance exact ticks, expose a serializable state
   snapshot, and select named title/game/collision/game-over frames without
   changing production defaults.
-- [ ] Verify the helper detects the former title-to-game freeze, JavaScript
+- [x] Verify the helper detects the former title-to-game freeze, JavaScript
   exceptions, unexpected console errors, external network requests, and browser
   processes that fail to exit.
-- [ ] Commit the verified browser automation and deterministic browser test API.
+- [x] Commit the verified browser automation and deterministic browser test API.
 
 ### 3. Implement accessible Enter activation and test all controls
 

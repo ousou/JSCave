@@ -10,3 +10,13 @@
 <script src="../src/renderer.js"></script>
 <script src="../src/controller.js"></script>
 <script src="../src/main.js"></script>
+<script>
+  if (new URLSearchParams(location.search).get('start') === '1') {
+    const { controller, engine } = window.JavaCave;
+    controller.stop();
+    engine.pointerDown();
+    controller.advance();
+    controller.advance();
+    document.getElementById('game').dataset.gameStarted = String(engine.state === 1 && engine.gameCount === 1);
+  }
+</script>

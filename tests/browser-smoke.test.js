@@ -8,7 +8,7 @@ const test = require('node:test');
 const root = path.resolve(__dirname, '..');
 const chrome = process.env.CHROME_BIN || 'google-chrome';
 
-function load(url, width, height, expectedScale) {
+function load(url, width, height, expectedScale, expectGameStarted = false) {
   return new Promise((resolve, reject) => {
     const child = spawn(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-background-networking',
@@ -27,6 +27,7 @@ function load(url, width, height, expectedScale) {
         assert.match(stdout, /id="game"[^>]*width="128"[^>]*height="160"/);
         assert.match(stdout, /data-ready="true"/);
         if (expectedScale) assert.match(stdout, new RegExp(`data-scale="${expectedScale}"`));
+        if (expectGameStarted) assert.match(stdout, /data-game-started="true"/);
         assert.doesNotMatch(stderr, /https?:\/\//);
         resolve();
       } catch (error) {
@@ -47,7 +48,7 @@ function staticServer() {
 
 test('browser shell loads locally from file and HTTP without external resources', async () => {
   await load(`file://${path.join(root, 'index.html')}`, 640, 800, 4);
-  await load(`file://${path.join(root, 'tests/browser-harness.html')}?scale=1`, 400, 400, 1);
+  await load(`file://${path.join(root, 'tests/browser-harness.html')}?scale=1&start=1`, 400, 400, 1, true);
   await load(`file://${path.join(root, 'tests/browser-harness.html')}?scale=4`, 400, 400, 4);
   const server = staticServer();
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));

@@ -14,3 +14,23 @@ test('renderer produces title, game, and game-over layers', () => {
   assert.ok(ctx.calls.some((call) => call.join(',') === 'fillRect,30,51,1,1'));
   game.setState(STATE.OVER); game.y = 50; game.tick(); renderer.render(game); assert.ok(ctx.calls.some((call) => call[0] === 'ellipse'));
 });
+
+test('renderer retains the previous frame while a newly entered state awaits its first tick', () => {
+  const ctx = context(); const renderer = new Renderer(ctx); const game = new Engine(() => .5);
+  game.tick(); renderer.render(game);
+  const callCount = ctx.calls.length;
+  let transitionFillCount = 0;
+  const fillRect = ctx.fillRect;
+  ctx.fillRect = (...args) => {
+    transitionFillCount += 1;
+    if (transitionFillCount > 200) throw new Error('unbounded transition rendering');
+    fillRect.call(ctx, ...args);
+  };
+
+  game.pointerDown(); game.tick();
+
+  assert.equal(game.state, STATE.GAME);
+  assert.equal(game.gameCount, 0);
+  assert.doesNotThrow(() => renderer.render(game));
+  assert.equal(ctx.calls.length, callCount);
+});

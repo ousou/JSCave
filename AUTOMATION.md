@@ -1,99 +1,108 @@
-# JavaCave automation and screenshot guide
+# JavaCave automation and release guide
 
-> Written by Codex on behalf of Sebastian.
+Written by: Codex on behalf of Sebastian
 
-## Browser port checks
+## Clean release verification
 
-The browser edition is dependency-free at runtime. From the repository root,
-run its deterministic Node and headless-Chrome checks, then regenerate the
-single-file release:
+Install Node.js 22, current Chrome, an optional current Firefox, and a JDK.
+From a clean worktree, run:
 
 ```bash
-node --test tests/*.test.js
+node scripts/release-verify.js
+```
+
+The command copies tracked `HEAD` files into a temporary clean export. It then
+runs the engine, renderer, controller, scaling, DOM, CDP, standalone, network,
+pixel, screenshot, Chrome, and Firefox-or-explicit-skip checks; runs
+`node scripts/package.js --check`; and compiles:
+
+```bash
+javac -Xlint:all -d <temporary-directory> JavaCave.java
+```
+
+No `.class` file or other build output is written into the repository. The
+command rejects dependency directories, unexpected binaries, external runtime
+requests, stale standalone bytes, modified export files, and a dirty worktree.
+
+For the longer stability gate, run:
+
+```bash
+node scripts/repeatability.js
+```
+
+It performs at least ten bounded iterations of the seeded engine trace, full
+Chrome state cycles, standalone/offline checks, and portable Chrome/Firefox
+compatibility. It reports the exact browser versions. Chrome is required;
+Firefox reports `SKIP` plus every searched executable name when unavailable.
+
+## Deterministic browser captures
+
+The five named frames are `title`, `initial-game`, `mid-game`, `collision`, and
+`game-over`. Generate candidate 1× and 4× Chrome captures with:
+
+```bash
+UPDATE_REFERENCES=1 node tests/browser-renderer.test.js
+```
+
+This writes `reference/browser-<frame>-1x.png` and
+`reference/browser-<frame>-4x.png` and prints the logical masked checksums.
+Review every changed image before accepting it, then record intentional checksum
+changes in `tests/browser-renderer.test.js` and rerun without update mode:
+
+```bash
+node tests/browser-renderer.test.js
+```
+
+The normal test is non-mutating. It checks exact dimensions, stable logical
+pixels, checked-in reference pixels, and nearest-neighbor 4× block expansion.
+Font-sensitive rectangles are zeroed only for the logical SHA-256 calculation:
+title labels and score text, the gameplay score strip, and `GameOver`/
+`HiScore!!` rectangles. Cave geometry, death rings, player pixels, palette, and
+all pixels outside those documented rectangles remain covered.
+
+Compare browser title captures with `reference/title-1x.png` and
+`reference/title-4x.png`, the Java references. Cross-platform serif glyph
+rasterization is an accepted font-only difference; geometry, coordinates,
+palette, and scaling are not. `reference/README.md` records the accepted review.
+
+## Standalone and offline checks
+
+Regenerate and validate the single-file artifact with:
+
+```bash
 node scripts/package.js
+node scripts/package.js --check
+node tests/packaging.test.js
+node tests/browser-standalone.test.js
 ```
 
-Open `javacave.html` directly to verify standalone delivery. Review captures
-at forced 1× or 4× for logical geometry and palette; serif text may differ by
-operating system. The Java source and its captures remain the parity reference.
+Packaging is deterministic and `--check` does not write. Browser checks open
+`javacave.html` directly through `file:`, exercise pointer and Enter starts,
+complete a deterministic transition, and assert the only direct-file requests
+are the local HTML documents. Source and standalone pages are also compared
+over local HTTP, with external origins rejected.
 
-Use this procedure to compile JavaCave, launch it without a visible desktop,
-and capture its title screen. Run every command from the repository root.
-
-## Dependencies
-
-On Ubuntu or Debian, install the required tools once:
+## Focused diagnostics
 
 ```bash
-sudo apt install openjdk-21-jdk xvfb imagemagick x11-utils
+node tests/browser-input.test.js
+node tests/browser-state-cycle.test.js
+node tests/browser-scaling.test.js
+node tests/browser-renderer.test.js
+node tests/browser-compatibility.test.js
 ```
 
-This supplies:
+The CDP helper uses isolated Chrome profiles, bounded commands, genuine CDP
+pointer/keyboard input, console and runtime exception collection, request
+recording, screenshots, pixels, and deterministic process cleanup. The portable
+HTTP harness reports script load, canvas output, Enter/Space behavior, fixed
+scaling, and runtime failures from both Chrome and Firefox.
 
-- `javac` and `java` from the JDK;
-- `xvfb-run` for a disposable virtual X11 display;
-- ImageMagick's `import` command to capture the display;
-- `xwininfo` to verify window geometry when diagnosing a capture.
+## Optional legacy Java title capture
 
-## Compile before capturing
-
-```bash
-javac -Xlint:all JavaCave.java
-```
-
-The project intentionally uses legacy Applet/AWT APIs, so deprecation warnings
-are expected. Treat compiler errors as failures.
-
-## Capture the title screen
-
-The following command starts the game at 4× scale in a virtual display, waits
-for the title screen, saves its 512 × 640 game window, then stops the game:
-
-```bash
-scale=4
-screenshot_width=$((128 * scale))
-screenshot_height=$((160 * scale))
-screenshot_path=/tmp/javacave-title-screen.png
-xvfb-run -a -s '-screen 0 1024x768x24' bash -c '
-  java -cp . JavaCave --scale "$1" &
-  game_pid=$!
-  trap "kill $game_pid 2>/dev/null" EXIT
-  sleep 2
-  import -display "$DISPLAY" -window root -crop "${2}x${3}+0+0" "$4"
-' _ "$scale" "$screenshot_width" "$screenshot_height" "$screenshot_path"
-identify "$screenshot_path"
-```
-
-Expected output from `identify` includes `PNG 512x640` when `scale=4`. Change
-`scale` to any integer from `1` to `16`; the resulting image dimensions are
-`128 × scale` by `160 × scale`. The capture is the title screen, which is
-sufficient to verify that the game launches and paints.
-
-## Diagnose a wrong-size capture
-
-If the image dimensions do not match the selected scale, leave the game
-running inside Xvfb and inspect the virtual display:
-
-```bash
-DISPLAY=:99 xwininfo -root -tree
-```
-
-The main `JavaCave` window and its `sun-awt-X11-XPanelPeer` child should each
-be `128 × scale` by `160 × scale` (for example, `512x640` at scale 4). If they
-are smaller, rebuild from the current source; the `--scale` option and
-`getPreferredSize()` implementation control the window size.
-
-## Manual game verification
-
-For an interactive check on a normal desktop, run:
-
-```bash
-# Original 1× scale
-java -cp . JavaCave
-
-# 4× scale
-java -cp . JavaCave --scale 4
-```
-
-Click the title screen to start. Hold the mouse button or space bar to rise;
-release it to fall.
+The existing `reference/title-1x.png` and `reference/title-4x.png` files are the
+reviewed Java drawing references. If they must be recreated, install a JDK,
+Xvfb, ImageMagick, and `x11-utils`, compile into a temporary directory, launch
+the Java reference in Xvfb at 1× and 4×, and capture exactly 128 × 160 or
+512 × 640 pixels. Expected Applet/AWT deprecation warnings are not failures;
+compiler errors, incorrect dimensions, or repository-local `.class` files are.

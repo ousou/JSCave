@@ -1,95 +1,97 @@
 # JavaCave
 
-> Written by Codex on behalf of Sebastian.
+Written by: Codex on behalf of Sebastian
 
-JavaCave is a browser-native port of the small legacy Java AWT game. Open
-`javacave.html` directly in a current browser—no installation, server, network
-request, library, or build step is needed. The original Java version remains a
-behavioral reference.
+JavaCave is a dependency-free browser port of the legacy Java AWT game. Open
+`javacave.html` directly in a current browser: it needs no installation,
+server, network access, or build step. The Java source remains the behavioral
+reference.
 
-## Browser play
+## Play in a browser
 
-Open `javacave.html`, or while developing open `index.html` directly. A local
-server is optional: `python3 -m http.server`. Hold pointer/touch or Space to
-rise; release to fall. The canvas is always a 128 × 160 logical surface. Use
-the Display scale selector for Auto or a fixed crisp 1×…16× enlargement.
-
-Run the development checks and regenerate the standalone artifact:
+Open `javacave.html`, or open `index.html` while developing. An optional local
+server also works:
 
 ```bash
-node --test tests/*.test.js
+python3 -m http.server
+```
+
+The canvas must have focus for keyboard controls. Click it or reach it with
+Tab, then:
+
+- press Enter to start;
+- hold Space, pointer, or touch to fly upward;
+- release to fall;
+- after game over, press Enter after the restart delay to return to the title,
+  then press Enter again to start the next game.
+
+Space is thrust-only. Enter never changes thrust. Pointer activation focuses
+the canvas, and blur, backgrounding, or pointer cancellation releases held
+input.
+
+The logical surface is permanently 128 × 160 pixels. Display scale `Auto`
+chooses the largest fitting integer scale; the selector can force 1× through
+16×. Forced oversized output scrolls instead of changing the logical canvas.
+
+Current Chrome is the required release-test browser. Portable compatibility
+checks also run in current Firefox when it is installed and report an explicit
+skip otherwise. The shipped game uses standard browser Canvas, Pointer Event,
+and keyboard APIs and has no external runtime resource.
+
+## Development and release
+
+Development checks require Node.js 22 and a local Chrome installation. Firefox
+is optional but recommended. A JDK is required only for Java-reference
+compilation during release verification.
+
+```bash
+# Unit tests
+node --test tests/engine-characterization.test.js tests/engine.test.js \
+  tests/controller.test.js tests/renderer.test.js tests/scaling.test.js
+
+# Representative real-browser suites
+node tests/browser-state-cycle.test.js
+node tests/browser-renderer.test.js
+node tests/browser-standalone.test.js
+node tests/browser-compatibility.test.js
+
+# Regenerate or non-mutatingly check the standalone artifact
 node scripts/package.js
+node scripts/package.js --check
+
+# Ten-run seeded/browser/cross-browser stability gate
+node scripts/repeatability.js
+
+# Full release gate from a clean exported HEAD
+node scripts/release-verify.js
 ```
 
-## Requirements
+`scripts/release-verify.js` requires a clean worktree. It exports tracked
+`HEAD` files to a temporary directory, runs unit and browser suites, validates
+standalone integrity and local-only networking, compiles Java into a temporary
+directory with `-Xlint:all`, rejects generated dependencies or unexpected
+binaries, and proves neither the export nor worktree changed.
 
-- A Java Development Kit (JDK), version 21 or later. The JDK supplies both
-  `java` (to run the game) and `javac` (to compile it).
-- A graphical desktop session (X11, Wayland, Windows, or macOS) so AWT can
-  create a window.
+## Project structure
 
-On Ubuntu or Debian, install the JDK with:
+- `index.html`, `styles.css`, `src/` — maintainable browser source.
+- `javacave.html` — generated, byte-reproducible standalone release.
+- `tests/` — Node, CDP Chrome, and portable Chrome/Firefox checks.
+- `reference/` — Java title references and reviewed browser frames.
+- `scripts/` — packaging, repeatability, and release verification.
+- `JavaCave.java` — legacy Java behavioral reference.
+- `docs/java-parity.md` — transcribed Java behavior and drawing rules.
+- `AUTOMATION.md` — screenshot and release-review procedure.
+
+## Java reference
+
+The browser edition is primary. To compile and run the historical Java version,
+use a JDK with desktop AWT support:
 
 ```bash
-sudo apt install openjdk-21-jdk
+javac -Xlint:all -d /tmp/javacave-classes JavaCave.java
+java -cp /tmp/javacave-classes JavaCave
 ```
 
-Check the installation:
-
-```bash
-java -version
-javac -version
-```
-
-## Compile
-
-From the repository root:
-
-```bash
-javac JavaCave.java
-```
-
-This produces `JavaCave.class` and `JavaCave$1.class` beside the source file.
-
-## Run
-
-Run the compiled game from the repository root:
-
-```bash
-java -cp . JavaCave
-```
-
-Close the window normally to stop the game.
-
-### Choose a display scale
-
-Use `--scale` to enlarge the original game area with crisp integer scaling.
-The default is `1`; values from `1` to `16` are accepted.
-
-```bash
-# Original 128 × 160 window (the default)
-java -cp . JavaCave
-
-# Recommended modern-monitor size: 512 × 640
-java -cp . JavaCave --scale 4
-```
-
-The equivalent `--scale=4` form also works.
-
-## Controls
-
-- Click the title screen to begin and give the game keyboard focus.
-- Hold the left mouse button or the space bar to move upward.
-- Release it to fall downward.
-
-Avoid the cave walls and obstacles to keep the run going. The score increases
-while playing.
-
-## Notes
-
-The source uses the old `java.applet.Applet` and AWT event APIs. They are
-deprecated in current Java releases, but Java 21 can still run this project.
-
-See [Original Online JavaCave Applet](ORIGINAL_APPLET.md) for the live applet
-location, downloaded-class fingerprint, comparison with this repository, and
-modern execution options.
+The legacy Applet/AWT APIs produce expected deprecation/removal warnings. See
+`ORIGINAL_APPLET.md` for provenance and modern execution notes.

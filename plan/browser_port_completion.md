@@ -208,16 +208,16 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 9. Finish documentation and release verification
 
-- [ ] Update `README.md` with supported browser expectations, Enter/Space
+- [x] Update `README.md` with supported browser expectations, Enter/Space
   controls, browser versus Java requirements, project structure, and exact
   development/release commands.
-- [ ] Update `AUTOMATION.md` with deterministic browser screenshot generation,
+- [x] Update `AUTOMATION.md` with deterministic browser screenshot generation,
   masked checksum rules, golden-image review, Firefox skip behavior,
   standalone/offline checks, repeatability, and clean-release verification.
-- [ ] Reconcile `plan/browser_javascript_port.md`: check only items now backed
+- [x] Reconcile `plan/browser_javascript_port.md`: check only items now backed
   by tests or captured evidence, correct checked items that were previously
   overstated, and link to this completion plan.
-- [ ] Add a standard-library release-verification command that runs unit and
+- [x] Add a standard-library release-verification command that runs unit and
   browser suites, packaging `--check`, no-external-resource checks, and
   `javac -Xlint:all -d <temporary-directory> JavaCave.java` without polluting
   the repository.

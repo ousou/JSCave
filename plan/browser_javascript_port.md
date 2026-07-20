@@ -3,6 +3,11 @@
 Latest update: 2026-07-20
 Written by: Codex on behalf of Sebastian
 
+Completion evidence and the final release gates are tracked in
+[`browser_port_completion.md`](browser_port_completion.md). Checklist items
+below are checked only where the completion tests or captured references now
+provide evidence.
+
 ## Goal
 
 Port JavaCave to browser-native JavaScript while preserving the Java version's
@@ -156,7 +161,7 @@ the source page and that release artifact.
 - [x] Implement collision detection exactly as the Java boolean expression,
   including its edge inclusivity, and transition to game over only after the
   collision tick's score and cave updates have occurred.
-- [ ] Run the complete engine suite with fixed random sequences and add a
+- [x] Run the complete engine suite with fixed random sequences and add a
   multi-hundred-tick replay checksum so accidental changes to difficulty,
   random consumption, or tick ordering are detected.
 - [x] Commit the verified gameplay simulation.
@@ -179,38 +184,38 @@ the source page and that release artifact.
 - [x] Preserve Java `copyArea` semantics with a scratch buffer or an equivalent
   verified full redraw so overlapping self-copy behavior does not vary between
   browsers.
-- [ ] Add real-browser pixel tests for stable non-text landmarks and palette
+- [x] Add real-browser pixel tests for stable non-text landmarks and palette
   colors in title, initial game, mid-game, collision, and game-over frames;
   keep font-sensitive checks at the command/metric level.
-- [ ] Add deterministic browser screenshots for review and an automated
+- [x] Add deterministic browser screenshots for review and an automated
   tolerance/checksum policy that ignores known platform font rasterization
   differences while still catching layout, palette, and scaling regressions.
-- [ ] Run Node renderer tests and browser pixel/screenshot tests through the
+- [x] Run Node renderer tests and browser pixel/screenshot tests through the
   scaling policy's forced 1× and 4× modes so their dimensions are independent
   of the test runner's window size.
-- [ ] Commit the verified canvas rendering port and approved reference images.
+- [x] Commit the verified canvas rendering port and approved reference images.
 
 ### 6. Connect production timing and browser controls
 
 - [x] Add failing controller tests with a fake scheduler for a 100 ms cadence,
   start/stop idempotence, no duplicate timers, and deterministic one-tick
   advancement.
-- [ ] Add failing browser tests that dispatch pointer down/up/cancel and Space
+- [x] Add failing browser tests that dispatch pointer down/up/cancel and Space
   down/up, verify Space does not scroll the page, verify pointer focus, and
   verify input is released on window blur or page visibility loss.
 - [x] Implement the controller using browser timers and Pointer Events, connect
   it to the engine and renderer, and use pointer capture where supported so a
   release outside the canvas cannot leave thrust stuck.
-- [ ] Add a scripted end-to-end replay that starts from the title through real
+- [x] Add a scripted end-to-end replay that starts from the title through real
   DOM events, flies for several ticks, deliberately collides, observes the
   death animation and score, returns to the title by click, and separately
   verifies the automatic timeout path.
-- [ ] Run all unit, browser integration, and deterministic replay tests.
-- [ ] Commit the verified playable browser integration.
+- [x] Run all unit, browser integration, and deterministic replay tests.
+- [x] Commit the verified playable browser integration.
 
 ### 7. Harden compatibility and standalone delivery
 
-- [ ] Add failing browser tests for an accessible scale selector containing
+- [x] Add failing browser tests for an accessible scale selector containing
   `Auto` and every integer from 1× through 16×; verify forced 1× reproduces the
   128 × 160 Java reference size, a forced size survives window resizing, `Auto`
   resumes fit-to-window behavior, oversized forced output scrolls instead of
@@ -220,22 +225,22 @@ the source page and that release artifact.
 - [x] Run the scale-policy unit tests, browser selector tests, 1× Java/browser
   comparison capture, and existing gameplay suite.
 - [x] Commit the verified manual scaling control.
-- [ ] Add automated checks for current Chrome and one additional browser engine
+- [x] Add automated checks for current Chrome and one additional browser engine
   when available, plus a clear skip result when the optional executable is not
   installed.
-- [ ] Test direct-file launch with networking disabled and assert that gameplay
+- [x] Test direct-file launch with networking disabled and assert that gameplay
   still starts, proving all runtime resources are local and no server is
   required.
-- [ ] Test keyboard-only and pointer-only complete state cycles, rapid input
+- [x] Test keyboard-only and pointer-only complete state cycles, rapid input
   changes, resize during play, background/foreground transitions, and a narrow
   viewport without changing logical game state or canvas pixels.
 - [x] Add a deterministic standard-library-only packaging script that inlines
   the verified CSS and JavaScript into a distributable `javacave.html`, then
   test that artifact with the same browser suite and verify it makes no external
   requests.
-- [ ] Run the full automated suite repeatedly with fixed seeds to rule out
+- [x] Run the full automated suite repeatedly with fixed seeds to rule out
   flaky timing and random failures.
-- [ ] Commit the verified compatibility and standalone-delivery work.
+- [x] Commit the verified compatibility and standalone-delivery work.
 
 ### 8. Make the browser port the documented primary experience
 

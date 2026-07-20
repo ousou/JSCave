@@ -166,6 +166,8 @@ the source page and that release artifact.
 - [x] Correct the browser player trail so each game frame draws the Java
   three-line worm from the preceding `oy` to the new `y`, rather than replacing
   it with a horizontal pixel at the current position.
+- [x] Rasterize the three worm lines as opaque logical pixels so browser Canvas
+  anti-aliasing cannot soften the Java AWT `drawLine` sprite.
 
 - [x] Add a recording Canvas-context test double and failing tests for the
   ordered drawing commands, colors, fonts, coordinates, line widths, text, and

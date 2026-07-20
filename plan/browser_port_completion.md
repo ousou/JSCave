@@ -53,21 +53,21 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 1. Complete deterministic engine characterization
 
-- [ ] Add failing table-driven tests that load
+- [x] Add failing table-driven tests that load
   `tests/fixtures/java-characterization.json` and cover every declared case,
   including cave reflection, exact tenth-tick random consumption, death rings
   1–19, game-over text at tick 20, high-score promotion, click restart, and the
   automatic return path.
-- [ ] Replace the loose random counter with a scripted-random helper that names
+- [x] Replace the loose random counter with a scripted-random helper that names
   each expected draw and fails on a missing, extra, or out-of-order draw.
-- [ ] Add a failing fixed-seed replay test that records canonical state after
+- [x] Add a failing fixed-seed replay test that records canonical state after
   several hundred ticks across title, gameplay, collision, game over, and
   return-to-title behavior, then asserts a checked-in SHA-256 trace checksum.
-- [ ] Make only the engine corrections exposed by those tests, preserving Java
+- [x] Make only the engine corrections exposed by those tests, preserving Java
   truncation, inclusive collision edges, and mutation order.
-- [ ] Run the complete engine and existing unit suites twice with identical
+- [x] Run the complete engine and existing unit suites twice with identical
   seeds and verify identical replay checksums.
-- [ ] Commit the verified deterministic engine characterization and any required
+- [x] Commit the verified deterministic engine characterization and any required
   engine corrections.
 
 ### 2. Add dependency-free real-browser automation

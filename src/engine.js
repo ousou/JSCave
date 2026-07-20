@@ -13,6 +13,7 @@
       this.map = Array.from({ length: 4 }, () => Array(32).fill(-1));
       this.setState(STATE.TITLE);
     }
+    draw(name) { return this.random(name); }
     setState(state) { this.state = state; this.gameCount = 0; }
     get thrusting() { return this.pointerPressed || this.keyPressed; }
     pointerDown() { this.pointerPressed = true; this.pointerClicked = true; }
@@ -28,7 +29,7 @@
     }
     titleTick() {
       if (this.gameCount === 1) { this.latch = false; if (this.highScore < this.score) this.highScore = this.score; }
-      this.titleBlue = trunc(this.random() * 64);
+      this.titleBlue = trunc(this.draw('title-blue') * 64);
       this.titleRadius = trunc((Math.sin(this.gameCount / 10) + 1) * 20) + 20;
       if (!this.latch && !this.pointerPressed) { this.latch = true; this.pointerClicked = false; }
       if (this.latch && this.pointerClicked) this.setState(STATE.GAME);
@@ -44,13 +45,13 @@
       this.score += 3;
       this.vy += this.thrusting ? -1 : 1; this.vy = Math.max(-8, Math.min(8, this.vy)); this.y += this.vy;
       if (this.gameCount % 10 === 0) this.caveHeight -= 1;
-      if (this.random() < .1) this.caveVelocity = trunc(this.random() * 10 - 5);
+      if (this.draw('cave-change-roll') < .1) this.caveVelocity = trunc(this.draw('cave-velocity') * 10 - 5);
       this.caveTop += this.caveVelocity;
       if (this.caveTop < 1) { this.caveTop = 1; this.caveVelocity = Math.abs(this.caveVelocity); }
       if (this.caveTop > 126 - this.caveHeight) { this.caveTop = 126 - this.caveHeight; this.caveVelocity = -Math.abs(this.caveVelocity); }
       for (let row = 0; row < 4; row += 1) this.map[row].shift();
       this.map[0][31] = this.caveTop; this.map[1][31] = this.caveTop + this.caveHeight;
-      this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.random() * (this.caveHeight - 16) + this.caveTop) : -1;
+      this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.draw('obstacle-y') * (this.caveHeight - 16) + this.caveTop) : -1;
       this.trailStartY = this.oldY;
       this.oldY = this.y;
       if (!this.isSafeAtCollisionColumn()) this.setState(STATE.OVER);

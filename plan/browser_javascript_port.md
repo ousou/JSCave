@@ -252,7 +252,7 @@ the source page and that release artifact.
   and a short Java-versus-browser parity checklist for release review.
 - [x] Ensure every new document or code-file authorship comment that names a
   writer says `Codex on behalf of Sebastian`.
-- [ ] From a clean checkout, run the documented full suite, direct-file smoke
+- [x] From a clean checkout, run the documented full suite, direct-file smoke
   test, local-server smoke test, Java reference compilation, and artifact
   integrity/no-network check.
 - [x] Commit the verified documentation and release instructions.

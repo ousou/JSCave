@@ -221,26 +221,38 @@ tests instead of treating previously checked items as proof by themselves.
   browser suites, packaging `--check`, no-external-resource checks, and
   `javac -Xlint:all -d <temporary-directory> JavaCave.java` without polluting
   the repository.
-- [ ] Run release verification from a clean exported `HEAD`, including direct
+- [x] Run release verification from a clean exported `HEAD`, including direct
   file, local HTTP, Chrome, Firefox-or-explicit-skip, Java compilation, artifact
   integrity, and a clean-worktree assertion.
-- [ ] Confirm there are no generated dependency directories, unexpected
+- [x] Confirm there are no generated dependency directories, unexpected
   binaries, external runtime resources, console errors, or uncommitted files.
-- [ ] Commit the verified documentation, reconciled plans, and release command.
+- [x] Commit the verified documentation, reconciled plans, and release command.
+
+Verification evidence:
+
+- `node scripts/repeatability.js 10` passed all ten iterations with Google
+  Chrome 149.0.7827.102 and Mozilla Firefox 151.0.3.
+- `node scripts/release-verify.js` passed from clean exported commit `680da30`,
+  including all direct-file/local-HTTP browser suites, both installed browser
+  engines, standalone integrity, `javac -Xlint:all` into a temporary directory,
+  export immutability, and clean-worktree assertions.
+- Ignored Java compilation leftovers were removed from the workspace after the
+  clean-export run; no generated dependency directory or unexpected binary
+  remains.
 
 ## Final acceptance
 
-- [ ] Enter provides a complete keyboard-only title/game/game-over/title cycle
+- [x] Enter provides a complete keyboard-only title/game/game-over/title cycle
   while Space remains thrust-only and pointer/touch behavior is unchanged.
-- [ ] Fixed-seed engine traces, full browser state cycles, ordered renderer
+- [x] Fixed-seed engine traces, full browser state cycles, ordered renderer
   commands, masked pixel checksums, and reviewed 1×/4× screenshots are stable.
-- [ ] Auto and 1×…16× selector behavior preserve engine state and logical canvas
+- [x] Auto and 1×…16× selector behavior preserve engine state and logical canvas
   pixels across scale and viewport changes.
-- [ ] Both source and standalone pages start and play from `file:` and local
+- [x] Both source and standalone pages start and play from `file:` and local
   HTTP in Chrome without external networking; portable checks pass in Firefox.
-- [ ] The standalone artifact is byte-reproducible and contains all required
+- [x] The standalone artifact is byte-reproducible and contains all required
   runtime resources.
-- [ ] The full documented verification passes from a clean exported commit and
+- [x] The full documented verification passes from a clean exported commit and
   leaves the repository clean.
 
 ## Open questions

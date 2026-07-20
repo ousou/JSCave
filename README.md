@@ -2,9 +2,9 @@
 
 > Written by Codex on behalf of Sebastian.
 
-JavaCave is a small, legacy Java AWT game. The application opens a 128 × 160
-pixel game window named **JavaCave**; the title screen calls the game
-**SFCave**.
+JavaCave is a small, legacy Java AWT game. The application opens a 512 × 640
+pixel window named **JavaCave** and renders the original 128 × 160 game area
+at a crisp 4× scale. The title screen calls the game **SFCave**.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ Close the window normally to stop the game.
 
 ## Controls
 
-- Click the title screen to begin.
+- Click the title screen to begin and give the game keyboard focus.
 - Hold the left mouse button or the space bar to move upward.
 - Release it to fall downward.
 

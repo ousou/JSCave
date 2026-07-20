@@ -32,7 +32,7 @@ are expected. Treat compiler errors as failures.
 ## Capture the title screen
 
 The following command starts the game in a virtual 800 × 600 display, waits
-for the title screen, saves its 128 × 160 game area, then stops the game:
+for the title screen, saves its 512 × 640 game window, then stops the game:
 
 ```bash
 screenshot_path=/tmp/javacave-title-screen.png
@@ -41,17 +41,17 @@ xvfb-run -a -s '-screen 0 800x600x24' bash -c '
   game_pid=$!
   trap "kill $game_pid 2>/dev/null" EXIT
   sleep 2
-  import -display "$DISPLAY" -window root -crop 128x160+0+0 "$1"
+  import -display "$DISPLAY" -window root -crop 512x640+0+0 "$1"
 ' _ "$screenshot_path"
 identify "$screenshot_path"
 ```
 
-Expected output from `identify` includes `PNG 128x160`. The capture is the
+Expected output from `identify` includes `PNG 512x640`. The capture is the
 title screen, which is sufficient to verify that the game launches and paints.
 
 ## Diagnose a wrong-size capture
 
-If the image is not 128 × 160, leave the game running inside Xvfb and inspect
+If the image is not 512 × 640, leave the game running inside Xvfb and inspect
 the virtual display:
 
 ```bash
@@ -59,9 +59,9 @@ DISPLAY=:99 xwininfo -root -tree
 ```
 
 The main `JavaCave` window and its `sun-awt-X11-XPanelPeer` child should each
-be `128x160`. If they are smaller, rebuild from the current source; the
-`getPreferredSize()` implementation is what makes `Frame.pack()` choose the
-correct size.
+be `512x640`. If they are smaller, rebuild from the current source; the
+`DisplayScale` and `getPreferredSize()` implementations are what make the
+window open at 4× the original game resolution.
 
 ## Manual game verification
 

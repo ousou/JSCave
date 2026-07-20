@@ -20,7 +20,9 @@ extends Applet
 implements Runnable {
     static final int SizeX = 128;
     static final int SizeY = 160;
-    static final int DisplayScale = 4;
+    static final int DefaultDisplayScale = 1;
+    static final int MaxDisplayScale = 16;
+    static int DisplayScale = DefaultDisplayScale;
     static final int SLeft = 0;
     static final int STop = 0;
     static final int TimeOut = 100;
@@ -51,6 +53,13 @@ implements Runnable {
     int vy;
     
     public static void main(String[] args) {
+        try {
+            DisplayScale = parseDisplayScale(args);
+        }
+        catch (IllegalArgumentException illegalArgumentException) {
+            System.err.println(illegalArgumentException.getMessage());
+            return;
+        }
         Frame ComApplet = new Frame("JavaCave");
         Applet commandLineApplet = new JavaCave();
         ComApplet.add(commandLineApplet);
@@ -65,6 +74,29 @@ implements Runnable {
 
         commandLineApplet.init();
         commandLineApplet.start();
+    }
+
+    private static int parseDisplayScale(String[] args) {
+        String scaleText;
+        if (args.length == 0) {
+            return DefaultDisplayScale;
+        }
+        if (args.length == 1 && args[0].startsWith("--scale=")) {
+            scaleText = args[0].substring("--scale=".length());
+        } else if (args.length == 2 && "--scale".equals(args[0])) {
+            scaleText = args[1];
+        } else {
+            throw new IllegalArgumentException("Usage: JavaCave [--scale <1-" + MaxDisplayScale + ">]");
+        }
+        try {
+            int scale = Integer.parseInt(scaleText);
+            if (scale >= 1 && scale <= MaxDisplayScale) {
+                return scale;
+            }
+        }
+        catch (NumberFormatException numberFormatException) {
+        }
+        throw new IllegalArgumentException("Scale must be an integer from 1 to " + MaxDisplayScale + ".");
     }
 
     @Override

@@ -2,6 +2,21 @@
 
 > Written by Codex on behalf of Sebastian.
 
+## Browser port checks
+
+The browser edition is dependency-free at runtime. From the repository root,
+run its deterministic Node and headless-Chrome checks, then regenerate the
+single-file release:
+
+```bash
+node --test tests/*.test.js
+node scripts/package.js
+```
+
+Open `javacave.html` directly to verify standalone delivery. Review captures
+at forced 1× or 4× for logical geometry and palette; serif text may differ by
+operating system. The Java source and its captures remain the parity reference.
+
 Use this procedure to compile JavaCave, launch it without a visible desktop,
 and capture its title screen. Run every command from the repository root.
 

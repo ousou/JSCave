@@ -2,9 +2,24 @@
 
 > Written by Codex on behalf of Sebastian.
 
-JavaCave is a small, legacy Java AWT game. By default, the application opens
-the original 128 × 160 pixel window named **JavaCave**. The title screen calls
-the game **SFCave**.
+JavaCave is a browser-native port of the small legacy Java AWT game. Open
+`javacave.html` directly in a current browser—no installation, server, network
+request, library, or build step is needed. The original Java version remains a
+behavioral reference.
+
+## Browser play
+
+Open `javacave.html`, or while developing open `index.html` directly. A local
+server is optional: `python3 -m http.server`. Hold pointer/touch or Space to
+rise; release to fall. The canvas is always a 128 × 160 logical surface. Use
+the Display scale selector for Auto or a fixed crisp 1×…16× enlargement.
+
+Run the development checks and regenerate the standalone artifact:
+
+```bash
+node --test tests/*.test.js
+node scripts/package.js
+```
 
 ## Requirements
 

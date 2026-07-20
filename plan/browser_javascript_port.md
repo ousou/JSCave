@@ -209,11 +209,11 @@ the source page and that release artifact.
   128 × 160 Java reference size, a forced size survives window resizing, `Auto`
   resumes fit-to-window behavior, oversized forced output scrolls instead of
   silently shrinking, and changing scale never resets gameplay.
-- [ ] Add the visible scale selector and connect it to the already-tested
+- [x] Add the visible scale selector and connect it to the already-tested
   scaling policy without changing the default `Auto` behavior.
-- [ ] Run the scale-policy unit tests, browser selector tests, 1× Java/browser
+- [x] Run the scale-policy unit tests, browser selector tests, 1× Java/browser
   comparison capture, and existing gameplay suite.
-- [ ] Commit the verified manual scaling control.
+- [x] Commit the verified manual scaling control.
 - [ ] Add automated checks for current Chrome and one additional browser engine
   when available, plus a clear skip result when the optional executable is not
   installed.
@@ -223,7 +223,7 @@ the source page and that release artifact.
 - [ ] Test keyboard-only and pointer-only complete state cycles, rapid input
   changes, resize during play, background/foreground transitions, and a narrow
   viewport without changing logical game state or canvas pixels.
-- [ ] Add a deterministic standard-library-only packaging script that inlines
+- [x] Add a deterministic standard-library-only packaging script that inlines
   the verified CSS and JavaScript into a distributable `javacave.html`, then
   test that artifact with the same browser suite and verify it makes no external
   requests.
@@ -233,13 +233,13 @@ the source page and that release artifact.
 
 ### 8. Make the browser port the documented primary experience
 
-- [ ] Update `README.md` with direct-open and optional local-server instructions,
+- [x] Update `README.md` with direct-open and optional local-server instructions,
   controls, supported browsers, logical/display sizing, project structure, and
   the distinction between runtime-free play and development test prerequisites.
-- [ ] Replace or extend `AUTOMATION.md` with one-command Node/unit/browser test
+- [x] Replace or extend `AUTOMATION.md` with one-command Node/unit/browser test
   instructions, deterministic screenshot regeneration, golden review rules,
   and a short Java-versus-browser parity checklist for release review.
-- [ ] Ensure every new document or code-file authorship comment that names a
+- [x] Ensure every new document or code-file authorship comment that names a
   writer says `Codex on behalf of Sebastian`.
 - [ ] From a clean checkout, run the documented full suite, direct-file smoke
   test, local-server smoke test, Java reference compilation, and artifact

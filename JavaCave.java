@@ -48,18 +48,20 @@ implements Runnable {
     int vy;
     
     public static void main(String[] args) {
-        Frame ComApplet = new Frame("Applet from Command Line");
-        ComApplet.setSize(350, 250);
+        Frame ComApplet = new Frame("JavaCave");
         Applet commandLineApplet = new JavaCave();
-        commandLineApplet.init();
-        commandLineApplet.start();
         ComApplet.add(commandLineApplet);
-        ComApplet.setVisible(true);
         ComApplet.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
+        commandLineApplet.resize(128, 160);
+        ComApplet.pack();
+        ComApplet.setVisible(true);
+
+        commandLineApplet.init();
+        commandLineApplet.start();
     }
     
     public void start() {

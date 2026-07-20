@@ -52,6 +52,9 @@ Keep the simulation independent from the DOM and Canvas API:
   canvas and presents it with nearest-neighbor integer scaling;
 - a small browser controller translates pointer and Space events, manages the
   timer, releases stuck input on focus loss, and starts from the title state;
+- a pure scaling policy defaults to the largest fitting integer scale but also
+  accepts an explicit 1×...16× mode for deterministic captures and, later, a
+  user-visible scale selector;
 - test-only code injects a seeded or scripted random source and a fake clock,
   without changing production defaults.
 
@@ -75,6 +78,10 @@ the source page and that release artifact.
   altered difficulty are out of scope.
 - Pointer events will cover mouse, pen, and touch while retaining the original
   Space control. Touch support does not change the game rules.
+- Display scaling defaults to `Auto`. After the normally playable version is
+  complete, an accessible selector will allow `Auto` or a forced 1×...16×
+  scale. A forced size remains fixed across window resizes and may make the page
+  scroll when it is larger than the viewport; reloading returns to `Auto`.
 - The Java palette, dimensions, serif typography, wording, coordinates, and
   nearest-neighbor enlargement are the visual target. Normal serif-font
   rasterization differences across operating systems are acceptable; geometry
@@ -110,11 +117,16 @@ the source page and that release artifact.
 - [ ] Add the static HTML/CSS/script structure, a centered canvas, a useful page
   title, keyboard-focus behavior, and a no-script message; do not add a package
   manager dependency, bundler, CDN link, web font, or service worker.
-- [ ] Implement integer nearest-neighbor presentation scaling from 1× through
-  16×, choosing the largest size that fits the viewport and recomputing it on
-  resize while keeping the canvas's backing dimensions exactly 128 × 160.
+- [ ] Add failing unit tests for a pure scaling policy: `Auto` chooses the
+  largest fitting integer from 1× through 16×, explicit 1×...16× modes ignore
+  viewport resizing, invalid values are rejected, and every mode leaves the
+  canvas backing dimensions at exactly 128 × 160.
+- [ ] Implement the tested scaling policy and nearest-neighbor presentation.
+  Start the production page in `Auto`, but allow the test harness/controller to
+  request a fixed scale before the visible selector is added in step 7.
 - [ ] Run the file/HTTP smoke checks in headless Chrome and validate at least
-  two viewport sizes, the 8:10 aspect ratio, and non-blurred canvas CSS.
+  two viewport sizes, forced 1× and 4× output, the 8:10 aspect ratio, and
+  non-blurred canvas CSS.
 - [ ] Commit the verified static browser shell.
 
 ### 3. Port the deterministic state machine and input latch
@@ -167,7 +179,9 @@ the source page and that release artifact.
 - [ ] Add deterministic browser screenshots for review and an automated
   tolerance/checksum policy that ignores known platform font rasterization
   differences while still catching layout, palette, and scaling regressions.
-- [ ] Run Node renderer tests and browser pixel/screenshot tests at 1× and 4×.
+- [ ] Run Node renderer tests and browser pixel/screenshot tests through the
+  scaling policy's forced 1× and 4× modes so their dimensions are independent
+  of the test runner's window size.
 - [ ] Commit the verified canvas rendering port and approved reference images.
 
 ### 6. Connect production timing and browser controls
@@ -190,6 +204,16 @@ the source page and that release artifact.
 
 ### 7. Harden compatibility and standalone delivery
 
+- [ ] Add failing browser tests for an accessible scale selector containing
+  `Auto` and every integer from 1× through 16×; verify forced 1× reproduces the
+  128 × 160 Java reference size, a forced size survives window resizing, `Auto`
+  resumes fit-to-window behavior, oversized forced output scrolls instead of
+  silently shrinking, and changing scale never resets gameplay.
+- [ ] Add the visible scale selector and connect it to the already-tested
+  scaling policy without changing the default `Auto` behavior.
+- [ ] Run the scale-policy unit tests, browser selector tests, 1× Java/browser
+  comparison capture, and existing gameplay suite.
+- [ ] Commit the verified manual scaling control.
 - [ ] Add automated checks for current Chrome and one additional browser engine
   when available, plus a clear skip result when the optional executable is not
   installed.
@@ -232,6 +256,9 @@ the source page and that release artifact.
   `JavaCave.java` at one simulation tick per 100 ms.
 - The canvas always has a 128 × 160 logical backing store and uses crisp
   nearest-neighbor enlargement without changing simulation results on resize.
+- `Auto` chooses the largest fitting integer display scale, while the visible
+  selector can force any scale from 1× through 16× without changing or
+  restarting game state.
 - Seeded engine replays, renderer command tests, browser pixel checks, DOM input
   tests, and full state-cycle tests all pass through documented commands.
 - The Java reference continues to compile, and the repository contains no
@@ -249,5 +276,8 @@ Confirmed by Sebastian on 2026-07-20:
   platform serif-font rasterization differences and do not bundle a font.
 - Retain the Java source and instructions as a clearly labeled legacy/reference
   implementation so future changes can still be audited for parity.
+- Build and test the scaling policy early with a programmatic fixed-scale mode
+  for reproducible Java/browser comparisons, but add its visible `Auto`/1×...16×
+  selector only after the normally playable version is complete.
 
 There are no remaining clarification questions before implementation.

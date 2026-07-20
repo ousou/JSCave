@@ -31,44 +31,53 @@ are expected. Treat compiler errors as failures.
 
 ## Capture the title screen
 
-The following command starts the game in a virtual 800 × 600 display, waits
+The following command starts the game at 4× scale in a virtual display, waits
 for the title screen, saves its 512 × 640 game window, then stops the game:
 
 ```bash
+scale=4
+screenshot_width=$((128 * scale))
+screenshot_height=$((160 * scale))
 screenshot_path=/tmp/javacave-title-screen.png
-xvfb-run -a -s '-screen 0 800x600x24' bash -c '
-  java -cp . JavaCave &
+xvfb-run -a -s '-screen 0 1024x768x24' bash -c '
+  java -cp . JavaCave --scale "$1" &
   game_pid=$!
   trap "kill $game_pid 2>/dev/null" EXIT
   sleep 2
-  import -display "$DISPLAY" -window root -crop 512x640+0+0 "$1"
-' _ "$screenshot_path"
+  import -display "$DISPLAY" -window root -crop "${2}x${3}+0+0" "$4"
+' _ "$scale" "$screenshot_width" "$screenshot_height" "$screenshot_path"
 identify "$screenshot_path"
 ```
 
-Expected output from `identify` includes `PNG 512x640`. The capture is the
-title screen, which is sufficient to verify that the game launches and paints.
+Expected output from `identify` includes `PNG 512x640` when `scale=4`. Change
+`scale` to any integer from `1` to `16`; the resulting image dimensions are
+`128 × scale` by `160 × scale`. The capture is the title screen, which is
+sufficient to verify that the game launches and paints.
 
 ## Diagnose a wrong-size capture
 
-If the image is not 512 × 640, leave the game running inside Xvfb and inspect
-the virtual display:
+If the image dimensions do not match the selected scale, leave the game
+running inside Xvfb and inspect the virtual display:
 
 ```bash
 DISPLAY=:99 xwininfo -root -tree
 ```
 
 The main `JavaCave` window and its `sun-awt-X11-XPanelPeer` child should each
-be `512x640`. If they are smaller, rebuild from the current source; the
-`DisplayScale` and `getPreferredSize()` implementations are what make the
-window open at 4× the original game resolution.
+be `128 × scale` by `160 × scale` (for example, `512x640` at scale 4). If they
+are smaller, rebuild from the current source; the `--scale` option and
+`getPreferredSize()` implementation control the window size.
 
 ## Manual game verification
 
 For an interactive check on a normal desktop, run:
 
 ```bash
+# Original 1× scale
 java -cp . JavaCave
+
+# 4× scale
+java -cp . JavaCave --scale 4
 ```
 
 Click the title screen to start. Hold the mouse button or space bar to rise;

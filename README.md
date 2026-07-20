@@ -2,9 +2,9 @@
 
 > Written by Codex on behalf of Sebastian.
 
-JavaCave is a small, legacy Java AWT game. The application opens a 512 × 640
-pixel window named **JavaCave** and renders the original 128 × 160 game area
-at a crisp 4× scale. The title screen calls the game **SFCave**.
+JavaCave is a small, legacy Java AWT game. By default, the application opens
+the original 128 × 160 pixel window named **JavaCave**. The title screen calls
+the game **SFCave**.
 
 ## Requirements
 
@@ -45,6 +45,21 @@ java -cp . JavaCave
 ```
 
 Close the window normally to stop the game.
+
+### Choose a display scale
+
+Use `--scale` to enlarge the original game area with crisp integer scaling.
+The default is `1`; values from `1` to `16` are accepted.
+
+```bash
+# Original 128 × 160 window (the default)
+java -cp . JavaCave
+
+# Recommended modern-monitor size: 512 × 640
+java -cp . JavaCave --scale 4
+```
+
+The equivalent `--scale=4` form also works.
 
 ## Controls
 

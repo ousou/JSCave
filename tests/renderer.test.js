@@ -9,5 +9,6 @@ test('renderer produces title, game, and game-over layers', () => {
   const ctx = context(); const renderer = new Renderer(ctx); const game = new Engine(() => .5);
   game.tick(); renderer.render(game); assert.ok(ctx.calls.some((call) => call[0] === 'fillText' && call[1] === 'SFCave'));
   game.setState(STATE.GAME); game.tick(); renderer.render(game); assert.ok(ctx.calls.some((call) => call[0] === 'fillText' && String(call[1]).startsWith('Score :')));
+  assert.deepEqual(ctx.calls.filter((call) => call[0] === 'moveTo'), [['moveTo', 30, 49], ['moveTo', 30, 50], ['moveTo', 30, 51]]);
   game.setState(STATE.OVER); game.y = 50; game.tick(); renderer.render(game); assert.ok(ctx.calls.some((call) => call[0] === 'ellipse'));
 });

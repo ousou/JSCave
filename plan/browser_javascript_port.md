@@ -163,6 +163,10 @@ the source page and that release artifact.
 
 ### 5. Port title, cave, player, score, and game-over rendering
 
+- [x] Correct the browser player trail so each game frame draws the Java
+  three-line worm from the preceding `oy` to the new `y`, rather than replacing
+  it with a horizontal pixel at the current position.
+
 - [x] Add a recording Canvas-context test double and failing tests for the
   ordered drawing commands, colors, fonts, coordinates, line widths, text, and
   per-state layers on representative ticks.

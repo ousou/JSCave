@@ -51,6 +51,7 @@
       for (let row = 0; row < 4; row += 1) this.map[row].shift();
       this.map[0][31] = this.caveTop; this.map[1][31] = this.caveTop + this.caveHeight;
       this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.random() * (this.caveHeight - 16) + this.caveTop) : -1;
+      this.trailStartY = this.oldY;
       this.oldY = this.y;
       const [top, bottom, obstacle] = [this.map[0][8], this.map[1][8], this.map[2][8]];
       if (!(this.y >= top && bottom >= this.y && (obstacle === -1 || obstacle >= this.y || this.y >= obstacle + 16))) this.setState(STATE.OVER);

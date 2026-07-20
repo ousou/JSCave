@@ -63,6 +63,11 @@ implements Runnable {
         commandLineApplet.init();
         commandLineApplet.start();
     }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(SizeX, SizeY);
+    }
     
     public void start() {
         if (this.m_JavaCave == null) {

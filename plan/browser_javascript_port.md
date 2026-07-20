@@ -106,28 +106,28 @@ the source page and that release artifact.
 - [x] Compile the unchanged Java source with `javac -Xlint:all JavaCave.java`
   and, where the environment permits, capture reference title screens at 1×
   and 4× using `AUTOMATION.md`; record expected warnings and capture dimensions.
-- [ ] Commit the verified specification, characterization fixtures, and any
+- [x] Commit the verified specification, characterization fixtures, and any
   reference captures as one baseline change.
 
 ### 2. Add a zero-runtime-dependency browser shell
 
-- [ ] Add a failing smoke check that loads the page from both a `file:` URL and
+- [x] Add a failing smoke check that loads the page from both a `file:` URL and
   a minimal local HTTP server, verifies there are no external requests, and
   expects a 128 × 160 canvas with an accessible game label and control help.
-- [ ] Add the static HTML/CSS/script structure, a centered canvas, a useful page
+- [x] Add the static HTML/CSS/script structure, a centered canvas, a useful page
   title, keyboard-focus behavior, and a no-script message; do not add a package
   manager dependency, bundler, CDN link, web font, or service worker.
-- [ ] Add failing unit tests for a pure scaling policy: `Auto` chooses the
+- [x] Add failing unit tests for a pure scaling policy: `Auto` chooses the
   largest fitting integer from 1× through 16×, explicit 1×...16× modes ignore
   viewport resizing, invalid values are rejected, and every mode leaves the
   canvas backing dimensions at exactly 128 × 160.
-- [ ] Implement the tested scaling policy and nearest-neighbor presentation.
+- [x] Implement the tested scaling policy and nearest-neighbor presentation.
   Start the production page in `Auto`, but allow the test harness/controller to
   request a fixed scale before the visible selector is added in step 7.
-- [ ] Run the file/HTTP smoke checks in headless Chrome and validate at least
+- [x] Run the file/HTTP smoke checks in headless Chrome and validate at least
   two viewport sizes, forced 1× and 4× output, the 8:10 aspect ratio, and
   non-blurred canvas CSS.
-- [ ] Commit the verified static browser shell.
+- [x] Commit the verified static browser shell.
 
 ### 3. Port the deterministic state machine and input latch
 

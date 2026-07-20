@@ -1,0 +1,38 @@
+/* Written by Codex on behalf of Sebastian. */
+:root {
+  color-scheme: dark;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+body {
+  align-items: center;
+  background: #202030;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.game-page {
+  display: grid;
+  justify-items: center;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 .75rem;
+}
+
+#game {
+  background: rgb(128 128 255);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  outline-offset: 4px;
+}
+
+#controls {
+  margin: .75rem 0 0;
+  text-align: center;
+}

@@ -57,14 +57,19 @@ test('blur, hidden page, selector focus, and rapid alternating input release thr
   try {
     await browser.navigate(page);
     await browser.evaluate('JavaCave.test.stopClock(); game.focus()');
+    const canvasCenter = () => browser.evaluate(`(() => {
+      const r = game.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    })()`);
     await browser.key('Space');
     await browser.evaluate('window.dispatchEvent(new Event("blur"))');
     assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
 
-    await browser.pointer('down', 10, 10);
+    let point = await canvasCenter();
+    await browser.pointer('down', point.x, point.y);
     await browser.evaluate(`Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
       document.dispatchEvent(new Event('visibilitychange'))`);
     assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    await browser.pointer('up', point.x, point.y);
 
     assert.equal(await browser.evaluate(`(() => {
       const selector = document.createElement('select'); selector.id = 'other';
@@ -78,9 +83,10 @@ test('blur, hidden page, selector focus, and rapid alternating input release thr
     await browser.key('Space', 'keyUp');
 
     await browser.evaluate('game.focus()');
+    point = await canvasCenter();
     for (let cycle = 0; cycle < 5; cycle += 1) {
-      await browser.key('Space'); await browser.pointer('down', 10, 10);
-      await browser.key('Space', 'keyUp'); await browser.pointer('up', 10, 10);
+      await browser.key('Space'); await browser.pointer('down', point.x, point.y);
+      await browser.key('Space', 'keyUp'); await browser.pointer('up', point.x, point.y);
     }
     assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
   } finally {

@@ -74,3 +74,7 @@ while playing.
 
 The source uses the old `java.applet.Applet` and AWT event APIs. They are
 deprecated in current Java releases, but Java 21 can still run this project.
+
+See [Original Online JavaCave Applet](ORIGINAL_APPLET.md) for the live applet
+location, downloaded-class fingerprint, comparison with this repository, and
+modern execution options.

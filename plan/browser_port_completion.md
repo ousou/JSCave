@@ -131,20 +131,20 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 5. Verify scale-selector behavior without clearing gameplay
 
-- [ ] Add failing DOM tests that assert the accessible selector contains Auto
+- [x] Add failing DOM tests that assert the accessible selector contains Auto
   and every integer scale from 1× through 16× in order.
-- [ ] Add failing browser tests for forced 1× and 4× dimensions, fixed scale
+- [x] Add failing browser tests for forced 1× and 4× dimensions, fixed scale
   across viewport resize, returning to Auto, the largest fitting Auto scale,
   oversized forced output scrolling rather than shrinking, and the permanent
   128 × 160 backing store.
-- [ ] Add a failing test that changes scale and resizes during gameplay while
+- [x] Add a failing test that changes scale and resizes during gameplay while
   asserting the same engine object/state and byte-identical logical canvas
   pixels before the next simulation tick.
-- [ ] Change scaling so assigning an unchanged backing width/height cannot clear
+- [x] Change scaling so assigning an unchanged backing width/height cannot clear
   the canvas; render immediately only when a genuine backing reset is required.
-- [ ] Run pure scaling, selector DOM, resize, pixel-preservation, and full-cycle
+- [x] Run pure scaling, selector DOM, resize, pixel-preservation, and full-cycle
   tests at forced 1× and 4×.
-- [ ] Commit the verified scaling UI and canvas-preservation change.
+- [x] Commit the verified scaling UI and canvas-preservation change.
 
 ### 6. Strengthen renderer commands, pixels, and visual references
 

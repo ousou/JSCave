@@ -15,3 +15,12 @@ test('browser shell declares a local accessible logical canvas', () => {
   assert.doesNotMatch(html, /https?:\/\//);
   assert.match(css, /image-rendering:\s*pixelated/);
 });
+
+test('scale selector exposes Auto followed by every integer scale through 16×', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const options = [...html.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((match) => [match[1], match[2]]);
+  assert.deepEqual(options, [
+    ['auto', 'Auto'],
+    ...Array.from({ length: 16 }, (_, index) => [String(index + 1), `${index + 1}×`]),
+  ]);
+});

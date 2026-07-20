@@ -9,7 +9,8 @@ Port JavaCave to browser-native JavaScript while preserving the Java version's
 appearance, 10 Hz game rhythm, controls, scoring, cave generation, collision
 rules, and title/game/game-over flow. The finished game should open as a static
 page without a build step, network access, third-party libraries, or installed
-runtime dependencies.
+runtime dependencies. Maintainable source files will also produce one tested,
+self-contained `javacave.html` release artifact.
 
 ## Investigated baseline
 
@@ -33,8 +34,9 @@ runtime dependencies.
   current source with expected deprecation/removal warnings. Node.js 22 and
   headless Chrome are available in the current development environment.
 - `AUTOMATION.md` documents Java title-screen capture through Xvfb and
-  ImageMagick. That remains useful for reference captures, although Xvfb could
-  not open its display inside the current restricted sandbox.
+  ImageMagick. A permitted retry outside the restricted display sandbox
+  successfully captured the expected 512 × 640 title screen at 4× scale; the
+  initial failure was environmental rather than a JavaCave rendering failure.
 
 ## Proposed design
 
@@ -57,24 +59,26 @@ The proposed source layout is `index.html`, `styles.css`, `src/engine.js`,
 `src/renderer.js`, and `src/main.js`. Node's built-in test runner will load the
 engine and renderer through small dependency-free exports. A browser test page
 and shell/Node runner will exercise the same production files in headless
-Chrome. This layout is pending the single-file delivery decision below.
+Chrome. A deterministic standard-library-only packaging script will inline the
+verified source into `javacave.html`, and the same browser suite will test both
+the source page and that release artifact.
 
 ## Assumptions and non-goals
 
 - "No dependencies" applies to the shipped game. The implementation will also
   avoid third-party test packages; automated browser checks may require a
   locally installed Chrome/Chromium executable.
-- The existing Java version remains in the repository as the historical and
-  behavioral reference until parity work is complete.
+- The existing Java version will remain in the repository as a clearly labeled
+  historical and behavioral reference after the browser port becomes primary.
 - The port preserves the original in-memory high score: reloading the page
   resets it. Persistent scores, accounts, networking, audio, new levels, and
   altered difficulty are out of scope.
 - Pointer events will cover mouse, pen, and touch while retaining the original
   Space control. Touch support does not change the game rules.
 - The Java palette, dimensions, serif typography, wording, coordinates, and
-  nearest-neighbor enlargement are the visual target. Exact font rasterization
-  across operating systems is not assumed unless the fidelity decision below
-  requires a bundled font or bitmap text.
+  nearest-neighbor enlargement are the visual target. Normal serif-font
+  rasterization differences across operating systems are acceptable; geometry
+  and non-text palette output remain pixel-exact targets, and no font is bundled.
 - Production code will not depend on test query parameters or expose mutable
   debug controls. Test pages may opt into a documented test hook before loading
   the controller.
@@ -159,8 +163,7 @@ Chrome. This layout is pending the single-file delivery decision below.
   browsers.
 - [ ] Add real-browser pixel tests for stable non-text landmarks and palette
   colors in title, initial game, mid-game, collision, and game-over frames;
-  keep font-sensitive checks at the command/metric level unless a fixed font
-  strategy is selected.
+  keep font-sensitive checks at the command/metric level.
 - [ ] Add deterministic browser screenshots for review and an automated
   tolerance/checksum policy that ignores known platform font rasterization
   differences while still catching layout, palette, and scaling regressions.
@@ -196,10 +199,10 @@ Chrome. This layout is pending the single-file delivery decision below.
 - [ ] Test keyboard-only and pointer-only complete state cycles, rapid input
   changes, resize during play, background/foreground transitions, and a narrow
   viewport without changing logical game state or canvas pixels.
-- [ ] If a single-file artifact is selected, add a deterministic standard-
-  library-only packaging script that inlines the verified CSS and JavaScript
-  into a distributable HTML file, then test that artifact with the same browser
-  suite and verify it makes no external requests.
+- [ ] Add a deterministic standard-library-only packaging script that inlines
+  the verified CSS and JavaScript into a distributable `javacave.html`, then
+  test that artifact with the same browser suite and verify it makes no external
+  requests.
 - [ ] Run the full automated suite repeatedly with fixed seeds to rule out
   flaky timing and random failures.
 - [ ] Commit the verified compatibility and standalone-delivery work.
@@ -221,9 +224,9 @@ Chrome. This layout is pending the single-file delivery decision below.
 
 ## Acceptance criteria
 
-- Opening the delivered HTML directly in a supported browser starts at a
-  faithful JavaCave/SFCave title screen with no server, install, build, network,
-  console error, or third-party runtime code.
+- Opening the delivered `javacave.html` directly in a supported browser starts
+  at a faithful JavaCave/SFCave title screen with no server, install, build,
+  network, console error, or third-party runtime code.
 - Pointer/touch hold and Space hold produce the same acceleration, score,
   procedural cave behavior, collisions, game-over flow, and restart behavior as
   `JavaCave.java` at one simulation tick per 100 ms.
@@ -235,15 +238,16 @@ Chrome. This layout is pending the single-file delivery decision below.
   generated dependency directory or required runtime outside standard browser
   APIs and local project files.
 
-## Open questions for clarification
+## Clarification decisions
 
-1. Should the final delivery be one self-contained HTML file, or may it be a
-   small static folder? Recommended: keep maintainable source files and generate
-   a tested single-file `javacave.html` release artifact.
-2. Does "same look and feel" mean pixel-identical output on one named reference
-   platform, or faithful dimensions/palette/layout with normal cross-platform
-   serif-font differences? Recommended: faithful cross-platform rendering with
-   pixel-exact tests for geometry and non-text colors, avoiding a bundled font.
-3. Should the legacy Java source and its instructions remain alongside the
-   browser version after the port? Recommended: retain them under a clearly
-   labeled legacy/reference section so parity can be audited later.
+Confirmed by Sebastian on 2026-07-20:
+
+- Keep maintainable source files and generate a tested, self-contained
+  `javacave.html` release artifact.
+- Target faithful cross-platform dimensions, palette, layout, animation, and
+  gameplay. Test geometry and non-text colors pixel-exactly, but accept normal
+  platform serif-font rasterization differences and do not bundle a font.
+- Retain the Java source and instructions as a clearly labeled legacy/reference
+  implementation so future changes can still be audited for parity.
+
+There are no remaining clarification questions before implementation.

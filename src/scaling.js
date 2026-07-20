@@ -26,8 +26,9 @@
 
   function applyScale(canvas, mode, viewportWidth, viewportHeight) {
     const decision = chooseScale(mode, viewportWidth, viewportHeight);
-    canvas.width = decision.backing.width;
-    canvas.height = decision.backing.height;
+    decision.backingReset = canvas.width !== decision.backing.width || canvas.height !== decision.backing.height;
+    if (canvas.width !== decision.backing.width) canvas.width = decision.backing.width;
+    if (canvas.height !== decision.backing.height) canvas.height = decision.backing.height;
     canvas.style.width = `${decision.backing.width * decision.scale}px`;
     canvas.style.height = `${decision.backing.height * decision.scale}px`;
     canvas.dataset.scale = String(decision.scale);

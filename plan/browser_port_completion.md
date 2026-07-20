@@ -113,21 +113,21 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 4. Add complete deterministic browser state-cycle tests
 
-- [ ] Add a failing pointer-only replay through real DOM input: title start,
+- [x] Add a failing pointer-only replay through real DOM input: title start,
   controlled flight for several ticks, deliberate collision, score assertion,
   death animation, click return to title, and a second game start.
-- [ ] Add a failing keyboard-only replay: Tab focus, Enter start, Space flight,
+- [x] Add a failing keyboard-only replay: Tab focus, Enter start, Space flight,
   deliberate collision, delayed Enter return to title, and Enter start again;
   assert Enter never contributes thrust.
-- [ ] Add a failing automatic-timeout replay that uses no restart input and
+- [x] Add a failing automatic-timeout replay that uses no restart input and
   verifies the exact tick at which game over returns to the title.
-- [ ] Add rapid-input, pointer-cancel, resize-during-play, blur/background, and
+- [x] Add rapid-input, pointer-cancel, resize-during-play, blur/background, and
   narrow-viewport scenarios that assert simulation state and logical canvas
   pixels do not change except when an intentional tick advances.
-- [ ] Fix integration behavior exposed by the replays without changing the
+- [x] Fix integration behavior exposed by the replays without changing the
   deterministic engine rules.
-- [ ] Run all state-cycle replays repeatedly with fixed seeds.
-- [ ] Commit the verified playable browser integration.
+- [x] Run all state-cycle replays repeatedly with fixed seeds.
+- [x] Commit the verified playable browser integration.
 
 ### 5. Verify scale-selector behavior without clearing gameplay
 

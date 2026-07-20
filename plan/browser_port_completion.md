@@ -171,22 +171,22 @@ tests instead of treating previously checked items as proof by themselves.
 
 ### 7. Verify standalone, offline, and deterministic packaging
 
-- [ ] Add failing packaging tests that build the expected standalone HTML in
+- [x] Add failing packaging tests that build the expected standalone HTML in
   memory, compare it byte-for-byte with `javacave.html`, reject remaining local
   asset references, and prove repeated generation is identical.
-- [ ] Refactor `scripts/package.js` to expose deterministic build/check
+- [x] Refactor `scripts/package.js` to expose deterministic build/check
   operations and a non-mutating `--check` mode while retaining the normal
   regeneration command.
-- [ ] Add real-browser tests that load `javacave.html` directly from `file:`,
+- [x] Add real-browser tests that load `javacave.html` directly from `file:`,
   start gameplay with pointer and Enter paths, and complete a deterministic
   state transition with external networking unavailable.
-- [ ] Record Chrome network events and assert that direct standalone play makes
+- [x] Record Chrome network events and assert that direct standalone play makes
   no resource request beyond the one local HTML document; also load the
   artifact from the local HTTP server and reject external origins.
-- [ ] Run the same applicable title/start/scale/pixel smoke assertions against
+- [x] Run the same applicable title/start/scale/pixel smoke assertions against
   both `index.html` and `javacave.html`.
-- [ ] Regenerate `javacave.html`, run `--check`, and run all standalone tests.
-- [ ] Commit the verified deterministic standalone delivery.
+- [x] Regenerate `javacave.html`, run `--check`, and run all standalone tests.
+- [x] Commit the verified deterministic standalone delivery.
 
 ### 8. Add Chrome/Firefox compatibility and repeatability gates
 

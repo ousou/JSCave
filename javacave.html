@@ -15,7 +15,7 @@ body {
   background: #202030;
   color: #fff;
   display: flex;
-  justify-content: center;
+  justify-content: safe center;
   margin: 0;
   min-height: 100vh;
 }
@@ -47,8 +47,8 @@ h1 {
   <body>
     <main class="game-page" aria-label="JavaCave">
       <h1>JavaCave</h1>
-      <canvas id="game" width="128" height="160" tabindex="0" role="img" aria-label="JavaCave game">JavaCave needs a browser with Canvas support.</canvas>
-      <p id="controls">Hold pointer or Space to fly. Release to fall.</p>
+      <canvas id="game" width="128" height="160" tabindex="0" role="img" aria-label="JavaCave game. Enter to start or restart; hold Space or pointer to fly.">JavaCave needs a browser with Canvas support.</canvas>
+      <p id="controls">Enter to start/restart; hold Space or pointer to fly. Release to fall.</p>
       <label for="scale">Display scale</label>
       <select id="scale" aria-label="Display scale">
         <option value="auto">Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option><option value="6">6×</option><option value="7">7×</option><option value="8">8×</option><option value="9">9×</option><option value="10">10×</option><option value="11">11×</option><option value="12">12×</option><option value="13">13×</option><option value="14">14×</option><option value="15">15×</option><option value="16">16×</option>
@@ -83,8 +83,9 @@ h1 {
 
   function applyScale(canvas, mode, viewportWidth, viewportHeight) {
     const decision = chooseScale(mode, viewportWidth, viewportHeight);
-    canvas.width = decision.backing.width;
-    canvas.height = decision.backing.height;
+    decision.backingReset = canvas.width !== decision.backing.width || canvas.height !== decision.backing.height;
+    if (canvas.width !== decision.backing.width) canvas.width = decision.backing.width;
+    if (canvas.height !== decision.backing.height) canvas.height = decision.backing.height;
     canvas.style.width = `${decision.backing.width * decision.scale}px`;
     canvas.style.height = `${decision.backing.height * decision.scale}px`;
     canvas.dataset.scale = String(decision.scale);
@@ -109,12 +110,17 @@ h1 {
       this.map = Array.from({ length: 4 }, () => Array(32).fill(-1));
       this.setState(STATE.TITLE);
     }
+    draw(name) { return this.random(name); }
     setState(state) { this.state = state; this.gameCount = 0; }
     get thrusting() { return this.pointerPressed || this.keyPressed; }
     pointerDown() { this.pointerPressed = true; this.pointerClicked = true; }
     pointerUp() { this.pointerPressed = false; }
     spaceDown() { this.keyPressed = true; }
     spaceUp() { this.keyPressed = false; }
+    activate() {
+      if (this.state === STATE.TITLE) this.setState(STATE.GAME);
+      else if (this.state === STATE.OVER && this.gameCount > 20) this.setState(STATE.TITLE);
+    }
     releaseInput() { this.pointerUp(); this.spaceUp(); }
     tick() {
       this.gameCount += 1;
@@ -124,7 +130,7 @@ h1 {
     }
     titleTick() {
       if (this.gameCount === 1) { this.latch = false; if (this.highScore < this.score) this.highScore = this.score; }
-      this.titleBlue = trunc(this.random() * 64);
+      this.titleBlue = trunc(this.draw('title-blue') * 64);
       this.titleRadius = trunc((Math.sin(this.gameCount / 10) + 1) * 20) + 20;
       if (!this.latch && !this.pointerPressed) { this.latch = true; this.pointerClicked = false; }
       if (this.latch && this.pointerClicked) this.setState(STATE.GAME);
@@ -140,13 +146,13 @@ h1 {
       this.score += 3;
       this.vy += this.thrusting ? -1 : 1; this.vy = Math.max(-8, Math.min(8, this.vy)); this.y += this.vy;
       if (this.gameCount % 10 === 0) this.caveHeight -= 1;
-      if (this.random() < .1) this.caveVelocity = trunc(this.random() * 10 - 5);
+      if (this.draw('cave-change-roll') < .1) this.caveVelocity = trunc(this.draw('cave-velocity') * 10 - 5);
       this.caveTop += this.caveVelocity;
       if (this.caveTop < 1) { this.caveTop = 1; this.caveVelocity = Math.abs(this.caveVelocity); }
       if (this.caveTop > 126 - this.caveHeight) { this.caveTop = 126 - this.caveHeight; this.caveVelocity = -Math.abs(this.caveVelocity); }
       for (let row = 0; row < 4; row += 1) this.map[row].shift();
       this.map[0][31] = this.caveTop; this.map[1][31] = this.caveTop + this.caveHeight;
-      this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.random() * (this.caveHeight - 16) + this.caveTop) : -1;
+      this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.draw('obstacle-y') * (this.caveHeight - 16) + this.caveTop) : -1;
       this.trailStartY = this.oldY;
       this.oldY = this.y;
       if (!this.isSafeAtCollisionColumn()) this.setState(STATE.OVER);
@@ -169,7 +175,7 @@ h1 {
 (function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   const STATE = { TITLE: 0, GAME: 1, OVER: 2 };
   class Renderer {
-    constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; }
+    constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; this.ctx.lineWidth = 1; }
     color(value) { this.ctx.fillStyle = value; this.ctx.strokeStyle = value; }
     text(font, color, text, x, y) { this.ctx.font = font; this.color(color); this.ctx.fillText(text, x, y); }
     render(game) { if (game.gameCount === 0) return; if (game.state === STATE.TITLE) this.title(game); else if (game.state === STATE.GAME) this.game(game); else this.over(game); }
@@ -184,11 +190,31 @@ h1 {
     <script>// Written by Codex on behalf of Sebastian.
 (function exposeController(root, factory) { const api = factory(); root.JavaCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   class Controller {
-    constructor({ engine, renderer, scheduler = globalThis, canvas }) { this.engine = engine; this.renderer = renderer; this.scheduler = scheduler; this.canvas = canvas; this.timer = null; }
+    constructor({ engine, renderer, scheduler = globalThis, canvas, windowTarget = globalThis.window, documentTarget = globalThis.document }) { this.engine = engine; this.renderer = renderer; this.scheduler = scheduler; this.canvas = canvas; this.windowTarget = windowTarget; this.documentTarget = documentTarget; this.timer = null; }
     advance() { this.engine.tick(); this.renderer.render(this.engine); }
     start() { if (this.timer !== null) return; this.advance(); this.timer = this.scheduler.setInterval(() => this.advance(), 100); }
     stop() { if (this.timer === null) return; this.scheduler.clearInterval(this.timer); this.timer = null; }
-    bind() { const release = () => this.engine.releaseInput(); this.canvas.addEventListener('pointerdown', (event) => { event.preventDefault(); this.canvas.focus(); this.engine.pointerDown(); this.canvas.setPointerCapture?.(event.pointerId); }); this.canvas.addEventListener('pointerup', release); this.canvas.addEventListener('pointercancel', release); window.addEventListener('keydown', (event) => { if (event.code === 'Space') { event.preventDefault(); this.engine.spaceDown(); } }); window.addEventListener('keyup', (event) => { if (event.code === 'Space') { event.preventDefault(); this.engine.spaceUp(); } }); window.addEventListener('blur', release); document.addEventListener('visibilitychange', () => { if (document.hidden) release(); }); }
+    bind() {
+      const release = (event) => { event?.preventDefault(); this.engine.releaseInput(); };
+      this.canvas.addEventListener('pointerdown', (event) => {
+        event.preventDefault(); this.canvas.focus(); this.engine.pointerDown();
+        this.canvas.setPointerCapture?.(event.pointerId);
+      });
+      this.canvas.addEventListener('pointerup', (event) => {
+        release(event); this.canvas.releasePointerCapture?.(event.pointerId);
+      });
+      this.canvas.addEventListener('pointercancel', release);
+      this.canvas.addEventListener('keydown', (event) => {
+        if (event.code === 'Space') { event.preventDefault(); this.engine.spaceDown(); }
+        if (event.code === 'Enter') { event.preventDefault(); if (!event.repeat) this.engine.activate(); }
+      });
+      this.canvas.addEventListener('keyup', (event) => {
+        if (event.code === 'Space') { event.preventDefault(); this.engine.spaceUp(); }
+        if (event.code === 'Enter') event.preventDefault();
+      });
+      this.windowTarget.addEventListener('blur', release);
+      this.documentTarget.addEventListener('visibilitychange', () => { if (this.documentTarget.hidden) release(); });
+    }
   }
   return { Controller };
 });
@@ -198,8 +224,14 @@ h1 {
   const canvas = document.getElementById('game');
   if (!canvas) return;
   const options = window.JavaCaveTestOptions || {};
+  const engine = new window.JavaCaveEngine.Engine();
+  const renderer = new window.JavaCaveRenderer.Renderer(canvas.getContext('2d'));
   let scaleMode = options.scaleMode === undefined ? 'auto' : options.scaleMode;
-  const scale = () => window.JavaCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+  const scale = () => {
+    const decision = window.JavaCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+    if (decision.backingReset) renderer.render(engine);
+    return decision;
+  };
   scale();
   window.addEventListener('resize', scale);
   const selector = document.getElementById('scale');
@@ -207,12 +239,57 @@ h1 {
     selector.value = String(scaleMode);
     selector.addEventListener('change', () => { scaleMode = selector.value === 'auto' ? 'auto' : Number(selector.value); scale(); });
   }
-  const engine = new window.JavaCaveEngine.Engine();
-  const renderer = new window.JavaCaveRenderer.Renderer(canvas.getContext('2d'));
   const controller = new window.JavaCaveController.Controller({ engine, renderer, canvas });
   controller.bind();
   controller.start();
-  window.JavaCave = { engine, renderer, controller };
+  const snapshot = () => ({
+    state: engine.state, gameCount: engine.gameCount, score: engine.score, highScore: engine.highScore,
+    y: engine.y, oldY: engine.oldY, vy: engine.vy, caveTop: engine.caveTop,
+    caveHeight: engine.caveHeight, caveVelocity: engine.caveVelocity,
+    pointerPressed: engine.pointerPressed, pointerClicked: engine.pointerClicked,
+    keyPressed: engine.keyPressed, map: engine.map.map((row) => row.slice()),
+  });
+  const test = options.testApi ? {
+    stopClock: () => controller.stop(),
+    startClock: () => controller.start(),
+    advance: (ticks = 1) => { for (let tick = 0; tick < ticks; tick += 1) controller.advance(); return snapshot(); },
+    snapshot,
+    useScriptedRandom(draws) {
+      let index = 0;
+      const previousRandom = engine.random;
+      engine.random = (name) => {
+        const draw = draws[index++];
+        if (!draw || draw.name !== name) throw new Error(`random draw mismatch at ${index - 1}: expected ${draw?.name}, received ${name}`);
+        return draw.value;
+      };
+      return () => {
+        if (index !== draws.length) throw new Error(`unused scripted random draws: ${draws.length - index}`);
+        engine.random = previousRandom;
+      };
+    },
+    selectFrame(name) {
+      controller.stop();
+      if (name === 'title') { engine.setState(0); controller.advance(); }
+      else {
+        engine.setState(1); controller.advance();
+        if (name === 'mid-game') {
+          engine.spaceDown(); for (let tick = 0; tick < 4; tick += 1) controller.advance();
+          engine.spaceUp(); for (let tick = 0; tick < 8; tick += 1) controller.advance();
+        }
+        if (name === 'collision' || name === 'game-over') {
+          for (let tick = 0; tick < 6; tick += 1) controller.advance();
+          engine.y = -1; controller.advance();
+        }
+        if (name === 'game-over') {
+          engine.setState(2); engine.y = 50;
+          for (let tick = 0; tick < 20; tick += 1) controller.advance();
+        }
+      }
+      renderer.render(engine);
+      return snapshot();
+    },
+  } : undefined;
+  window.JavaCave = { engine, renderer, controller, ...(test ? { test } : {}) };
   canvas.dataset.ready = 'true';
 })();
 </script>

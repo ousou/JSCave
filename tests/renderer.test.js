@@ -56,6 +56,18 @@ test('game renderer records stripes, opening, obstacle, score, and all three ord
   assert.ok(playerStart >= 0 && playerStart < playerMiddle && playerMiddle < playerEnd);
 });
 
+test('game renderer preserves the growing worm trail all the way to the left edge', () => {
+  const ctx = context(); const renderer = new Renderer(ctx); const game = new Engine(() => .5);
+  game.setState(STATE.GAME); game.tick();
+  game.wormSegments = Array.from({ length: 9 }, () => ({ startY: 50, endY: 50 }));
+  renderer.render(game);
+  const middleLineXs = new Set(ctx.calls
+    .filter((call) => call[0] === 'fillRect' && call[2] === 50 && call[3] === 1 && call[4] === 1)
+    .map((call) => call[1]));
+  assert.deepEqual([...middleLineXs].sort((left, right) => left - right),
+    Array.from({ length: 37 }, (_, index) => index - 2));
+});
+
 test('death renderer records rings 1–19, GameOver, and conditional HiScore at tick 20', () => {
   const ctx = context(); const renderer = new Renderer(ctx);
   const game = { state: STATE.OVER, gameCount: 0, y: 50, score: 30, highScore: 20 };

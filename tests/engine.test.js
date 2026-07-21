@@ -23,6 +23,15 @@ test('input combines pointer and Space and acceleration clamps', () => {
   game.pointerUp(); game.vy = 8; game.tick(); assert.equal(game.vy, 8);
 });
 
+test('worm trail grows to the left edge and retains only visible segments', () => {
+  const game = new Engine(() => .5); game.setState(STATE.GAME);
+  game.tick();
+  assert.deepEqual(game.wormSegments, [{ startY: 50, endY: 46 }]);
+  for (let tick = 1; tick < 12; tick += 1) game.tick();
+  assert.equal(game.wormSegments.length, 9);
+  assert.deepEqual(game.wormSegments.at(-1), { startY: game.trailStartY, endY: game.y });
+});
+
 test('game cave, obstacle, collision, and automatic restart preserve Java ordering', () => {
   const draws = Array(20).fill(.5); let index = 0;
   const game = new Engine(() => draws[index++] ?? .5); game.setState(STATE.GAME); game.tick();

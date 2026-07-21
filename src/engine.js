@@ -4,6 +4,7 @@
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createEngine() {
   const STATE = Object.freeze({ TITLE: 0, GAME: 1, OVER: 2 });
+  const VISIBLE_WORM_SEGMENTS = 9;
   const trunc = Math.trunc;
 
   class Engine {
@@ -11,6 +12,7 @@
       this.random = random; this.highScore = 0; this.score = 0;
       this.pointerPressed = false; this.pointerClicked = false; this.keyPressed = false;
       this.map = Array.from({ length: 4 }, () => Array(32).fill(-1));
+      this.wormSegments = [];
       this.setState(STATE.TITLE);
     }
     draw(name) { return this.random(name); }
@@ -42,6 +44,7 @@
       if (this.gameCount === 1) {
         this.score = 0; this.caveTop = 10; this.caveHeight = 108; this.caveVelocity = 0;
         this.oldY = 50; this.y = 50; this.vy = -5;
+        this.wormSegments = [];
         for (let column = 0; column < 32; column += 1) {
           this.map[0][column] = this.caveTop; this.map[1][column] = this.caveTop + this.caveHeight; this.map[2][column] = -1;
         }
@@ -57,6 +60,8 @@
       this.map[0][31] = this.caveTop; this.map[1][31] = this.caveTop + this.caveHeight;
       this.map[2][31] = this.gameCount % 10 === 0 ? trunc(this.draw('obstacle-y') * (this.caveHeight - 16) + this.caveTop) : -1;
       this.trailStartY = this.oldY;
+      this.wormSegments.push({ startY: this.oldY, endY: this.y });
+      if (this.wormSegments.length > VISIBLE_WORM_SEGMENTS) this.wormSegments.shift();
       this.oldY = this.y;
       if (!this.isSafeAtCollisionColumn()) this.setState(STATE.OVER);
     }

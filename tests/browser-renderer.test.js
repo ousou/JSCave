@@ -13,8 +13,8 @@ const frames = ['title', 'initial-game', 'mid-game', 'collision', 'game-over'];
 const expectedChecksums = {
   title: '3a56792a269832f53a20830a9fd61e13995732af691bb97988e56b52a0fa24fe',
   'initial-game': '64ac45f429de8e9cdecc657e645b1eb0374a1f74b58bf6bd119a52ff7c2cf942',
-  'mid-game': '33536ac13296ee417c8bf68014a2865332d8e46483249bfdb67e37eddbbd8f1a',
-  collision: '3da2ee3edbab95c6598987f4f60f2f2af7ac992e34415c609344cc98836edbe5',
+  'mid-game': '3f326be3b1e5a7437e7462c3c3aa212b2e87111567228bf75d293db58201f4f3',
+  collision: 'dc3869660cee6313fe601d88ab0a011352bb7789c4098ed8e18d03acbf75e23c',
   'game-over': '9d830aa132b220cf1fc683d83b5819f763115b0316ac98ad090262f52f2ce3af',
 };
 

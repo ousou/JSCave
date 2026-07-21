@@ -57,7 +57,9 @@ Then, on every game tick, in this exact order:
    `my > 126-mh` to `my=126-mh, mv=-abs(mv)`.
 5. Paint score strip, copy playfield pixels `(2,0,126,128)` by `(-4,0)`, then
    shift all four map rows left one column.
-6. Erase the three-pixel player trail at `x=30…34`, append/paint column 31 at
+6. Draw the newest three-pixel worm segment at `x=30…34`. Earlier segments
+   remain in the copied playfield and move four pixels left per tick, so after
+   nine ticks the visible worm reaches the left edge. Append/paint column 31 at
    x=124, and assign its top/bottom map values.
 7. On every tenth tick, consume a final draw and set obstacle top to
    `trunc(random * (mh - 16) + my)`; otherwise set the new obstacle to `-1`.

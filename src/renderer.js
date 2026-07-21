@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 (function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   const STATE = { TITLE: 0, GAME: 1, OVER: 2 };
   class Renderer {

@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>JavaCave — browser edition</title>
-    <style>/* Written by Codex on behalf of Sebastian. */
-:root {
+    <style>:root {
   color-scheme: dark;
   font-family: Georgia, "Times New Roman", serif;
 }
@@ -55,8 +54,7 @@ h1 {
       </select>
       <noscript>JavaScript is required to play JavaCave.</noscript>
     </main>
-    <script>// Written by Codex on behalf of Sebastian.
-(function exposeScaling(root, factory) {
+    <script>(function exposeScaling(root, factory) {
   const api = factory();
   root.JavaCaveScaling = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
@@ -95,8 +93,7 @@ h1 {
   return { LOGICAL_WIDTH, LOGICAL_HEIGHT, MAX_SCALE, chooseScale, applyScale };
 });
 </script>
-    <script>// Written by Codex on behalf of Sebastian.
-(function exposeEngine(root, factory) {
+    <script>(function exposeEngine(root, factory) {
   const api = factory(); root.JavaCaveEngine = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createEngine() {
@@ -176,8 +173,7 @@ h1 {
   return { Engine, STATE, trunc };
 });
 </script>
-    <script>// Written by Codex on behalf of Sebastian.
-(function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
+    <script>(function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   const STATE = { TITLE: 0, GAME: 1, OVER: 2 };
   class Renderer {
     constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; this.ctx.lineWidth = 1; }
@@ -207,8 +203,7 @@ h1 {
   return { Renderer };
 });
 </script>
-    <script>// Written by Codex on behalf of Sebastian.
-(function exposeController(root, factory) { const api = factory(); root.JavaCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
+    <script>(function exposeController(root, factory) { const api = factory(); root.JavaCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   class Controller {
     constructor({ engine, renderer, scheduler = globalThis, canvas, windowTarget = globalThis.window, documentTarget = globalThis.document }) { this.engine = engine; this.renderer = renderer; this.scheduler = scheduler; this.canvas = canvas; this.windowTarget = windowTarget; this.documentTarget = documentTarget; this.timer = null; }
     advance() { this.engine.tick(); this.renderer.render(this.engine); }
@@ -239,8 +234,7 @@ h1 {
   return { Controller };
 });
 </script>
-    <script>// Written by Codex on behalf of Sebastian.
-(function bootstrapBrowserShell() {
+    <script>(function bootstrapBrowserShell() {
   const canvas = document.getElementById('game');
   if (!canvas) return;
   const options = window.JavaCaveTestOptions || {};

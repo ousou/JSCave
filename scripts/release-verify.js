@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// Written by Codex on behalf of Sebastian.
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
 const crypto = require('node:crypto');

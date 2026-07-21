@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 (function exposeScaling(root, factory) {
   const api = factory();
   root.JavaCaveScaling = api;

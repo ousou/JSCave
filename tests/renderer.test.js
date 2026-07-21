@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const { Engine, STATE } = require('../src/engine.js');

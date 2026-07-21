@@ -1,5 +1,4 @@
 {
-  "writer": "Codex on behalf of Sebastian",
   "cases": [
     {"name":"title-to-game","given":"released title then pointer down","expect":{"state":"game","gameCount":0}},
     {"name":"acceleration-clamps","given":"held/released beyond limits","expect":{"velocityRange":[-8,8]}},

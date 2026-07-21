@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// Written by Codex on behalf of Sebastian.
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
 const { browserVersion, probeBrowsers } = require('../tests/support/browsers.js');

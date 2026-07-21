@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 const assert = require('node:assert/strict');
 const { spawn } = require('node:child_process');
 const http = require('node:http');

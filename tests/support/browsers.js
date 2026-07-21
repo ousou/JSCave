@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');

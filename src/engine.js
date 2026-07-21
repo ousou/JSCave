@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 (function exposeEngine(root, factory) {
   const api = factory(); root.JavaCaveEngine = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

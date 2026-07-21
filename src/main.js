@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 (function bootstrapBrowserShell() {
   const canvas = document.getElementById('game');
   if (!canvas) return;

@@ -1,4 +1,3 @@
-// Written by Codex on behalf of Sebastian.
 (function exposeController(root, factory) { const api = factory(); root.JavaCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   class Controller {
     constructor({ engine, renderer, scheduler = globalThis, canvas, windowTarget = globalThis.window, documentTarget = globalThis.document }) { this.engine = engine; this.renderer = renderer; this.scheduler = scheduler; this.canvas = canvas; this.windowTarget = windowTarget; this.documentTarget = documentTarget; this.timer = null; }

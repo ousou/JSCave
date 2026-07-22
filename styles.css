@@ -35,3 +35,14 @@ h1 {
   margin: .75rem 0 0;
   text-align: center;
 }
+
+.source-note {
+  color: #d8d8e8;
+  font-size: .875rem;
+  margin-top: .75rem;
+  text-align: center;
+}
+
+.source-note a {
+  color: #bfc5ff;
+}

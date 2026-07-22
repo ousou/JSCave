@@ -25,6 +25,9 @@ test('visible selector implements fixed scales, Auto fitting, resize stability, 
     await browser.resize(800, 1000);
     await browser.navigate(page);
     await browser.evaluate('JSCave.controller.stop()');
+    const initial = await display(browser);
+    assert.equal(initial.scale, '5');
+    assert.ok(initial.scrollHeight <= 1000, 'Auto scale should leave the controls and source note visible');
     await selectScale(browser, '1');
     assert.deepEqual(await display(browser), {
       width: 128, height: 160, backingWidth: 128, backingHeight: 160,
@@ -39,9 +42,9 @@ test('visible selector implements fixed scales, Auto fitting, resize stability, 
     assert.ok((await display(browser)).scrollWidth >= 512, 'oversized fixed canvas should scroll instead of shrink');
     await browser.resize(800, 1000); await browser.evaluate('new Promise(requestAnimationFrame)');
     await selectScale(browser, 'auto');
-    assert.equal((await display(browser)).scale, '6');
+    assert.equal((await display(browser)).scale, '5');
     await browser.resize(512, 640); await browser.evaluate('new Promise(requestAnimationFrame)');
-    assert.equal((await display(browser)).scale, '4');
+    assert.equal((await display(browser)).scale, '2');
     assert.equal((await display(browser)).backingWidth, 128);
     assert.equal((await display(browser)).backingHeight, 160);
   } finally {

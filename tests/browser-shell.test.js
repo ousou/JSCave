@@ -11,7 +11,7 @@ test('browser shell declares a local accessible logical canvas', () => {
   assert.match(html, /<canvas[^>]+width="128"[^>]+height="160"/);
   assert.match(html, /aria-label="JSCave game\. Enter to start or restart; hold Space or pointer to fly\."/);
   assert.match(html, /Enter to start\/restart; hold Space or pointer to fly/);
-  assert.doesNotMatch(html, /https?:\/\//);
+  assert.match(html, /Original game: <a href="http:\/\/www\.liquidcode\.org\/worm\.html">The Infamous Worm Game<\/a>/);
   assert.match(css, /image-rendering:\s*pixelated/);
 });
 

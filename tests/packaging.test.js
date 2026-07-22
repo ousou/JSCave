@@ -15,7 +15,7 @@ test('standalone build is deterministic, byte-current, and contains no asset ref
   assert.equal(checkStandalone(), true);
   assert.doesNotMatch(first, /<(?:script|img)\b[^>]*\bsrc\s*=/i);
   assert.doesNotMatch(first, /<link\b[^>]*\bhref\s*=/i);
-  assert.doesNotMatch(first, /\bhttps?:\/\//i);
+  assert.match(first, /Original game: <a href="http:\/\/www\.liquidcode\.org\/worm\.html">The Infamous Worm Game<\/a>/);
   for (const marker of ['JSCaveScaling', 'JSCaveEngine', 'JSCaveRenderer', 'JSCaveController']) assert.match(first, new RegExp(marker));
 });
 

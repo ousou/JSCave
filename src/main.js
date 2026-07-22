@@ -4,9 +4,12 @@
   const options = window.JSCaveTestOptions || {};
   const engine = new window.JSCaveEngine.Engine();
   const renderer = new window.JSCaveRenderer.Renderer(canvas.getContext('2d'));
+  const page = document.querySelector('.game-page');
   let scaleMode = options.scaleMode === undefined ? 'auto' : options.scaleMode;
   const scale = () => {
-    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+    const pageChromeHeight = page ? page.getBoundingClientRect().height - canvas.getBoundingClientRect().height : 0;
+    const availableHeight = scaleMode === 'auto' ? Math.max(1, window.innerHeight - Math.ceil(pageChromeHeight)) : window.innerHeight;
+    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, availableHeight);
     if (decision.backingReset) renderer.render(engine);
     return decision;
   };

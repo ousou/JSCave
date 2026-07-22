@@ -41,6 +41,17 @@ h1 {
   margin: .75rem 0 0;
   text-align: center;
 }
+
+.source-note {
+  color: #d8d8e8;
+  font-size: .875rem;
+  margin-top: .75rem;
+  text-align: center;
+}
+
+.source-note a {
+  color: #bfc5ff;
+}
 </style>
   </head>
   <body>
@@ -52,6 +63,7 @@ h1 {
       <select id="scale" aria-label="Display scale">
         <option value="auto">Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option><option value="6">6×</option><option value="7">7×</option><option value="8">8×</option><option value="9">9×</option><option value="10">10×</option><option value="11">11×</option><option value="12">12×</option><option value="13">13×</option><option value="14">14×</option><option value="15">15×</option><option value="16">16×</option>
       </select>
+      <footer class="source-note">Original game: <a href="http://www.liquidcode.org/worm.html">The Infamous Worm Game</a></footer>
       <noscript>JavaScript is required to play JSCave.</noscript>
     </main>
     <script>(function exposeScaling(root, factory) {
@@ -240,9 +252,12 @@ h1 {
   const options = window.JSCaveTestOptions || {};
   const engine = new window.JSCaveEngine.Engine();
   const renderer = new window.JSCaveRenderer.Renderer(canvas.getContext('2d'));
+  const page = document.querySelector('.game-page');
   let scaleMode = options.scaleMode === undefined ? 'auto' : options.scaleMode;
   const scale = () => {
-    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+    const pageChromeHeight = page ? page.getBoundingClientRect().height - canvas.getBoundingClientRect().height : 0;
+    const availableHeight = scaleMode === 'auto' ? Math.max(1, window.innerHeight - Math.ceil(pageChromeHeight)) : window.innerHeight;
+    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, availableHeight);
     if (decision.backingReset) renderer.render(engine);
     return decision;
   };

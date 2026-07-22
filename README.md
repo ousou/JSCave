@@ -78,7 +78,7 @@ binaries, and proves neither the export nor worktree changed.
 - `scripts/` — packaging, repeatability, and release verification.
 - `JavaCave.java` — legacy Java behavioral reference.
 - `docs/java-parity.md` — transcribed Java behavior and drawing rules.
-- `AUTOMATION.md` — screenshot and release-review procedure.
+- `docs/AUTOMATION.md` — screenshot and release-review procedure.
 
 ## Java reference
 

@@ -1,13 +1,10 @@
 # JSCave
 
-Written by: Codex on behalf of Sebastian
+JSCave is a dependency-free browser port of the [Infamous Worm Game](http://www.liquidcode.org/worm.html), a.k.a JavaCave.
 
-JSCave is a dependency-free browser port of the legacy Java AWT game. Open
-`jscave.html` directly in a current browser: it needs no installation, server,
-network access, or build step. The original Java source remains JavaCave and
-serves as the behavioral reference.
+You can play it by accessing this link: TODO.
 
-## Play in a browser
+## Play locally in a browser
 
 Open `jscave.html`, or open `index.html` while developing. An optional local
 server also works:

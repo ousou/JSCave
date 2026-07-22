@@ -36,6 +36,13 @@ h1 {
   text-align: center;
 }
 
+.scale-control {
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+
 .source-note {
   color: #d8d8e8;
   font-size: .875rem;

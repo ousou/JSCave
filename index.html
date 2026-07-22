@@ -10,11 +10,13 @@
     <main class="game-page" aria-label="JSCave">
       <h1>JSCave</h1>
       <canvas id="game" width="128" height="160" tabindex="0" role="img" aria-label="JSCave game. Enter to start or restart; hold Space or pointer to fly.">JSCave needs a browser with Canvas support.</canvas>
-      <p id="controls">Enter to start/restart; hold Space or pointer to fly. Release to fall.</p>
-      <label for="scale">Display scale</label>
-      <select id="scale" aria-label="Display scale">
-        <option value="auto">Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option><option value="6">6×</option><option value="7">7×</option><option value="8">8×</option><option value="9">9×</option><option value="10">10×</option><option value="11">11×</option><option value="12">12×</option><option value="13">13×</option><option value="14">14×</option><option value="15">15×</option><option value="16">16×</option>
-      </select>
+      <p id="controls"><strong>How to play:</strong> Enter to start/restart; hold Space or pointer to fly. Release to fall.</p>
+      <div class="scale-control">
+        <label for="scale">Display scale</label>
+        <select id="scale" aria-label="Display scale">
+          <option value="auto">Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option><option value="6">6×</option><option value="7">7×</option><option value="8">8×</option><option value="9">9×</option><option value="10">10×</option><option value="11">11×</option><option value="12">12×</option><option value="13">13×</option><option value="14">14×</option><option value="15">15×</option><option value="16">16×</option>
+        </select>
+      </div>
       <footer class="source-note">Original game: <a href="http://www.liquidcode.org/worm.html">The Infamous Worm Game</a></footer>
       <noscript>JavaScript is required to play JSCave.</noscript>
     </main>

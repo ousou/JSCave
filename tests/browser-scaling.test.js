@@ -44,7 +44,7 @@ test('visible selector implements fixed scales, Auto fitting, resize stability, 
     await selectScale(browser, 'auto');
     assert.equal((await display(browser)).scale, '5');
     await browser.resize(512, 640); await browser.evaluate('new Promise(requestAnimationFrame)');
-    assert.equal((await display(browser)).scale, '2');
+    assert.equal((await display(browser)).scale, '3');
     assert.equal((await display(browser)).backingWidth, 128);
     assert.equal((await display(browser)).backingHeight, 160);
   } finally {

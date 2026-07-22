@@ -10,9 +10,11 @@ test('browser shell declares a local accessible logical canvas', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
   assert.match(html, /<canvas[^>]+width="128"[^>]+height="160"/);
   assert.match(html, /aria-label="JSCave game\. Enter to start or restart; hold Space or pointer to fly\."/);
-  assert.match(html, /Enter to start\/restart; hold Space or pointer to fly/);
+  assert.match(html, /<strong>How to play:<\/strong> Enter to start\/restart; hold Space or pointer to fly/);
+  assert.match(html, /<div class="scale-control">\s*<label for="scale">Display scale<\/label>\s*<select id="scale"/);
   assert.match(html, /Original game: <a href="http:\/\/www\.liquidcode\.org\/worm\.html">The Infamous Worm Game<\/a>/);
   assert.match(css, /image-rendering:\s*pixelated/);
+  assert.match(css, /\.scale-control\s*\{[\s\S]*display:\s*flex/);
 });
 
 test('scale selector exposes Auto followed by every integer scale through 16×', () => {

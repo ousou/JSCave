@@ -30,7 +30,7 @@ function serveReport() {
 }
 
 async function portableReport(kind, executable) {
-  const profile = fs.mkdtempSync(path.join(os.tmpdir(), `javacave-${kind}-`));
+  const profile = fs.mkdtempSync(path.join(os.tmpdir(), `jscave-${kind}-`));
   const { server, reported } = serveReport();
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const url = `http://127.0.0.1:${server.address().port}/`;

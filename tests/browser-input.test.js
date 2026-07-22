@@ -6,14 +6,14 @@ const { CdpBrowser } = require('./support/browser.js');
 const page = `file://${path.join(__dirname, 'browser-harness.html')}?scale=1`;
 
 async function state(browser) {
-  return browser.evaluate('JavaCave.test.snapshot()');
+  return browser.evaluate('JSCave.test.snapshot()');
 }
 
 test('real canvas input preserves focus, prevention, capture, and exact engine input state', { timeout: 30_000 }, async () => {
   const browser = await CdpBrowser.launch();
   try {
     await browser.navigate(page);
-    await browser.evaluate(`JavaCave.test.stopClock(); JavaCave.engine.setState(0);
+    await browser.evaluate(`JSCave.test.stopClock(); JSCave.engine.setState(0);
       window.inputEvents = [];
       for (const type of ['pointerdown','pointerup','pointercancel','keydown','keyup']) {
         document.querySelector('#game').addEventListener(type, event => inputEvents.push({type, code:event.code, cancelable:event.cancelable, prevented:event.defaultPrevented}));
@@ -25,9 +25,9 @@ test('real canvas input preserves focus, prevention, capture, and exact engine i
     await browser.key('Enter', 'keyDown', { repeat: true });
     assert.equal((await state(browser)).state, 0);
     await browser.key('Enter');
-    assert.deepEqual({ state: (await state(browser)).state, thrusting: await browser.evaluate('JavaCave.engine.thrusting') }, { state: 1, thrusting: false });
+    assert.deepEqual({ state: (await state(browser)).state, thrusting: await browser.evaluate('JSCave.engine.thrusting') }, { state: 1, thrusting: false });
     await browser.key('Enter', 'keyUp');
-    assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.thrusting'), false);
     await browser.key('Space');
     assert.equal((await state(browser)).keyPressed, true);
     await browser.key('Space', 'keyUp');
@@ -55,19 +55,19 @@ test('blur, hidden page, selector focus, and rapid alternating input release thr
   const browser = await CdpBrowser.launch();
   try {
     await browser.navigate(page);
-    await browser.evaluate('JavaCave.test.stopClock(); game.focus()');
+    await browser.evaluate('JSCave.test.stopClock(); game.focus()');
     const canvasCenter = () => browser.evaluate(`(() => {
       const r = game.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
     })()`);
     await browser.key('Space');
     await browser.evaluate('window.dispatchEvent(new Event("blur"))');
-    assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.thrusting'), false);
 
     let point = await canvasCenter();
     await browser.pointer('down', point.x, point.y);
     await browser.evaluate(`Object.defineProperty(document, 'hidden', { configurable: true, get: () => true });
       document.dispatchEvent(new Event('visibilitychange'))`);
-    assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.thrusting'), false);
     await browser.pointer('up', point.x, point.y);
 
     assert.equal(await browser.evaluate(`(() => {
@@ -78,7 +78,7 @@ test('blur, hidden page, selector focus, and rapid alternating input release thr
     })()`), 'other');
     await browser.key('Space');
     assert.equal(await browser.evaluate('selectorPrevented()'), false);
-    assert.equal(await browser.evaluate('JavaCave.engine.keyPressed'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.keyPressed'), false);
     await browser.key('Space', 'keyUp');
 
     await browser.evaluate('game.focus()');
@@ -87,7 +87,7 @@ test('blur, hidden page, selector focus, and rapid alternating input release thr
       await browser.key('Space'); await browser.pointer('down', point.x, point.y);
       await browser.key('Space', 'keyUp'); await browser.pointer('up', point.x, point.y);
     }
-    assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.thrusting'), false);
   } finally {
     await browser.close();
   }

@@ -1,10 +1,10 @@
 <!doctype html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../styles.css">
-<canvas id="game" width="128" height="160" tabindex="0" aria-label="JavaCave game. Enter to start or restart; hold Space or pointer to fly."></canvas>
+<canvas id="game" width="128" height="160" tabindex="0" aria-label="JSCave game. Enter to start or restart; hold Space or pointer to fly."></canvas>
 <script>
   const scale = new URLSearchParams(location.search).get('scale');
-  window.JavaCaveTestOptions = { scaleMode: scale === null ? 'auto' : Number(scale), testApi: true };
+  window.JSCaveTestOptions = { scaleMode: scale === null ? 'auto' : Number(scale), testApi: true };
 </script>
 <script src="../src/scaling.js"></script>
 <script src="../src/engine.js"></script>
@@ -13,7 +13,7 @@
 <script src="../src/main.js"></script>
 <script>
   if (new URLSearchParams(location.search).get('start') === '1') {
-    const { controller, engine } = window.JavaCave;
+    const { controller, engine } = window.JSCave;
     controller.stop();
     engine.pointerDown();
     controller.advance();

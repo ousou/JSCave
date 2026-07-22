@@ -25,12 +25,12 @@ test('CDP helper controls file and HTTP pages, input, viewport, pixels, screensh
     await browser.resize(400, 400);
     await browser.navigate(`file://${path.join(root, 'tests/browser-harness.html')}?scale=1`);
     assert.equal(await browser.evaluate('document.querySelector("#game").dataset.ready'), 'true');
-    assert.equal(await browser.evaluate('JavaCave.test.stopClock(); typeof JavaCave.test.snapshot'), 'function');
+    assert.equal(await browser.evaluate('JSCave.test.stopClock(); typeof JSCave.test.snapshot'), 'function');
     assert.equal(await browser.evaluate(`(() => {
-      const complete = JavaCave.test.useScriptedRandom([{ name: 'title-blue', value: .25 }]);
-      JavaCave.test.selectFrame('title');
+      const complete = JSCave.test.useScriptedRandom([{ name: 'title-blue', value: .25 }]);
+      JSCave.test.selectFrame('title');
       complete();
-      return JavaCave.test.snapshot().state;
+      return JSCave.test.snapshot().state;
     })()`), 0);
     const before = await browser.canvasPixels('#game', 0, 0, 1, 1);
     assert.equal(before.length, 4);
@@ -40,8 +40,8 @@ test('CDP helper controls file and HTTP pages, input, viewport, pixels, screensh
     })()`);
     await browser.pointer('down', rect.x + rect.width / 2, rect.y + rect.height / 2);
     await browser.pointer('up', rect.x + rect.width / 2, rect.y + rect.height / 2);
-    assert.equal(await browser.evaluate('JavaCave.test.advance().state'), 1, 'title-to-game transition must not freeze');
-    assert.equal(await browser.evaluate('JavaCave.test.advance().gameCount'), 1);
+    assert.equal(await browser.evaluate('JSCave.test.advance().state'), 1, 'title-to-game transition must not freeze');
+    assert.equal(await browser.evaluate('JSCave.test.advance().gameCount'), 1);
     await browser.key('Space');
     await browser.key('Space', 'keyUp');
     const png = await browser.screenshot(rect);

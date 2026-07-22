@@ -6,7 +6,7 @@ const test = require('node:test');
 const { CdpBrowser } = require('./support/browser.js');
 
 const root = path.resolve(__dirname, '..');
-const standalone = `file://${path.join(root, 'javacave.html')}`;
+const standalone = `file://${path.join(root, 'jscave.html')}`;
 
 function server() {
   const origins = [];
@@ -21,7 +21,7 @@ function server() {
 }
 
 async function stopAndPoint(browser) {
-  await browser.evaluate('JavaCave.controller.stop(); JavaCave.engine.random = () => .5');
+  await browser.evaluate('JSCave.controller.stop(); JSCave.engine.random = () => .5');
   return browser.evaluate(`(() => { const r=game.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; })()`);
 }
 
@@ -31,14 +31,14 @@ test('standalone file starts by pointer and Enter and completes a deterministic 
     await browser.navigate(standalone);
     let point = await stopAndPoint(browser);
     await browser.pointer('down', point.x, point.y); await browser.pointer('up', point.x, point.y);
-    await browser.evaluate('JavaCave.controller.advance(); JavaCave.controller.advance(); JavaCave.engine.y=-100; JavaCave.controller.advance()');
-    assert.equal(await browser.evaluate('JavaCave.engine.state'), 2);
+    await browser.evaluate('JSCave.controller.advance(); JSCave.controller.advance(); JSCave.engine.y=-100; JSCave.controller.advance()');
+    assert.equal(await browser.evaluate('JSCave.engine.state'), 2);
 
     await browser.navigate(standalone);
     await stopAndPoint(browser);
     await browser.evaluate('game.focus()'); await browser.key('Enter'); await browser.key('Enter', 'keyUp');
-    assert.equal(await browser.evaluate('JavaCave.engine.state'), 1);
-    assert.equal(await browser.evaluate('JavaCave.engine.thrusting'), false);
+    assert.equal(await browser.evaluate('JSCave.engine.state'), 1);
+    assert.equal(await browser.evaluate('JSCave.engine.thrusting'), false);
     assert.deepEqual(browser.networkRequests, [standalone, standalone]);
     browser.assertHealthy({ allowedRequest: (url) => url === standalone });
   } finally {
@@ -56,9 +56,9 @@ test('source and standalone pages share title, start, scale, and logical-pixel s
       await browser.evaluate(`scale.value='4'; scale.dispatchEvent(new Event('change'))`);
       const titlePixel = await browser.canvasPixels('#game', 0, 0, 1, 1);
       await browser.pointer('down', point.x, point.y); await browser.pointer('up', point.x, point.y);
-      await browser.evaluate('JavaCave.controller.advance(); JavaCave.controller.advance()');
+      await browser.evaluate('JSCave.controller.advance(); JSCave.controller.advance()');
       results.push({
-        state: await browser.evaluate('JavaCave.engine.state'),
+        state: await browser.evaluate('JSCave.engine.state'),
         scale: await browser.evaluate('game.dataset.scale'),
         dimensions: await browser.evaluate('({width:game.width,height:game.height})'),
         titlePixel,
@@ -77,7 +77,7 @@ test('HTTP source and standalone loads stay on the local origin', { timeout: 30_
   await new Promise((resolve) => instance.listen(0, '127.0.0.1', resolve));
   try {
     const origin = `http://127.0.0.1:${instance.address().port}`;
-    for (const pathName of ['/', '/javacave.html']) {
+    for (const pathName of ['/', '/jscave.html']) {
       await browser.navigate(`${origin}${pathName}`);
       await stopAndPoint(browser);
       assert.equal(await browser.evaluate('game.dataset.ready'), 'true');

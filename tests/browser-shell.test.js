@@ -9,7 +9,7 @@ test('browser shell declares a local accessible logical canvas', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
   assert.match(html, /<canvas[^>]+width="128"[^>]+height="160"/);
-  assert.match(html, /aria-label="JavaCave game\. Enter to start or restart; hold Space or pointer to fly\."/);
+  assert.match(html, /aria-label="JSCave game\. Enter to start or restart; hold Space or pointer to fly\."/);
   assert.match(html, /Enter to start\/restart; hold Space or pointer to fly/);
   assert.doesNotMatch(html, /https?:\/\//);
   assert.match(css, /image-rendering:\s*pixelated/);

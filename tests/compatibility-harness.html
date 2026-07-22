@@ -1,9 +1,9 @@
 <!doctype html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../styles.css">
-<canvas id="game" width="128" height="160" tabindex="0" aria-label="JavaCave compatibility game"></canvas>
+<canvas id="game" width="128" height="160" tabindex="0" aria-label="JSCave compatibility game"></canvas>
 <select id="scale"><option value="auto">Auto</option><option value="4">4×</option></select>
-<script>window.JavaCaveTestOptions = { scaleMode: 1 };</script>
+<script>window.JSCaveTestOptions = { scaleMode: 1 };</script>
 <script src="../src/scaling.js"></script>
 <script src="../src/engine.js"></script>
 <script src="../src/renderer.js"></script>
@@ -16,15 +16,15 @@
     addEventListener('unhandledrejection', (event) => failures.push(String(event.reason)));
     const report = { userAgent: navigator.userAgent, failures };
     try {
-      report.scriptLoad = Boolean(window.JavaCave?.engine && window.JavaCaveRenderer && window.JavaCaveScaling);
-      JavaCave.controller.stop(); JavaCave.engine.random = () => .5; game.focus();
+      report.scriptLoad = Boolean(window.JSCave?.engine && window.JSCaveRenderer && window.JSCaveScaling);
+      JSCave.controller.stop(); JSCave.engine.random = () => .5; game.focus();
       game.dispatchEvent(new KeyboardEvent('keydown', { code: 'Enter', key: 'Enter', bubbles: true, cancelable: true }));
-      report.enterStart = JavaCave.engine.state === 1 && !JavaCave.engine.thrusting;
-      JavaCave.controller.advance();
+      report.enterStart = JSCave.engine.state === 1 && !JSCave.engine.thrusting;
+      JSCave.controller.advance();
       game.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ', bubbles: true, cancelable: true }));
-      report.spaceDown = JavaCave.engine.thrusting;
+      report.spaceDown = JSCave.engine.thrusting;
       game.dispatchEvent(new KeyboardEvent('keyup', { code: 'Space', key: ' ', bubbles: true, cancelable: true }));
-      report.spaceUp = !JavaCave.engine.thrusting;
+      report.spaceUp = !JSCave.engine.thrusting;
       scale.value = '4'; scale.dispatchEvent(new Event('change', { bubbles: true }));
       report.fixedScale = game.dataset.scale === '4' && game.getBoundingClientRect().width === 512;
       const pixels = game.getContext('2d').getImageData(0, 0, 128, 160).data;

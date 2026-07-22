@@ -1,15 +1,15 @@
-# JavaCave
+# JSCave
 
 Written by: Codex on behalf of Sebastian
 
-JavaCave is a dependency-free browser port of the legacy Java AWT game. Open
-`javacave.html` directly in a current browser: it needs no installation,
-server, network access, or build step. The Java source remains the behavioral
-reference.
+JSCave is a dependency-free browser port of the legacy Java AWT game. Open
+`jscave.html` directly in a current browser: it needs no installation, server,
+network access, or build step. The original Java source remains JavaCave and
+serves as the behavioral reference.
 
 ## Play in a browser
 
-Open `javacave.html`, or open `index.html` while developing. An optional local
+Open `jscave.html`, or open `index.html` while developing. An optional local
 server also works:
 
 ```bash
@@ -75,7 +75,7 @@ binaries, and proves neither the export nor worktree changed.
 ## Project structure
 
 - `index.html`, `styles.css`, `src/` — maintainable browser source.
-- `javacave.html` — generated, byte-reproducible standalone release.
+- `jscave.html` — generated, byte-reproducible standalone release.
 - `tests/` — Node, CDP Chrome, and portable Chrome/Firefox checks.
 - `reference/` — Java title references and reviewed browser frames.
 - `scripts/` — packaging, repeatability, and release verification.
@@ -89,8 +89,8 @@ The browser edition is primary. To compile and run the historical Java version,
 use a JDK with desktop AWT support:
 
 ```bash
-javac -Xlint:all -d /tmp/javacave-classes JavaCave.java
-java -cp /tmp/javacave-classes JavaCave
+javac -Xlint:all -d /tmp/JavaCave-classes JavaCave.java
+java -cp /tmp/JavaCave-classes JavaCave
 ```
 
 The legacy Applet/AWT APIs produce expected deprecation/removal warnings. See

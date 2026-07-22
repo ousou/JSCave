@@ -65,9 +65,9 @@ test('named frames have stable logical pixels and reviewed 1×/4× screenshots',
     try {
       await browser.resize(800, 1000);
       await browser.navigate(`${page}?scale=${scale}`);
-      await browser.evaluate('JavaCave.test.stopClock(); JavaCave.engine.random = () => .5');
+      await browser.evaluate('JSCave.test.stopClock(); JSCave.engine.random = () => .5');
       for (const frame of frames) {
-        await browser.evaluate(`JavaCave.test.selectFrame(${JSON.stringify(frame)})`);
+        await browser.evaluate(`JSCave.test.selectFrame(${JSON.stringify(frame)})`);
         const logicalPixels = await browser.canvasPixels();
         const checksum = maskedChecksum(frame, logicalPixels);
         if (process.env.UPDATE_REFERENCES === '1') process.stderr.write(`${frame}=${checksum}\n`);

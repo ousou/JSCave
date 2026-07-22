@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
-const outputPath = path.join(root, 'javacave.html');
+const outputPath = path.join(root, 'jscave.html');
 const scriptFiles = ['src/scaling.js', 'src/engine.js', 'src/renderer.js', 'src/controller.js', 'src/main.js'];
 
 function buildStandalone(baseDirectory = root) {
@@ -17,13 +17,13 @@ function buildStandalone(baseDirectory = root) {
 }
 
 function writeStandalone(baseDirectory = root) {
-  const output = path.join(baseDirectory, 'javacave.html');
+  const output = path.join(baseDirectory, 'jscave.html');
   fs.writeFileSync(output, buildStandalone(baseDirectory));
   return output;
 }
 
 function checkStandalone(baseDirectory = root) {
-  const output = path.join(baseDirectory, 'javacave.html');
+  const output = path.join(baseDirectory, 'jscave.html');
   return fs.existsSync(output) && fs.readFileSync(output, 'utf8') === buildStandalone(baseDirectory);
 }
 
@@ -35,10 +35,10 @@ function main(arguments_) {
   }
   if (arguments_.length === 1 && arguments_[0] === '--check') {
     if (!checkStandalone()) {
-      process.stderr.write('javacave.html is stale; run node scripts/package.js\n');
+      process.stderr.write('jscave.html is stale; run node scripts/package.js\n');
       process.exitCode = 1;
     } else {
-      process.stdout.write('javacave.html is up to date\n');
+      process.stdout.write('jscave.html is up to date\n');
     }
     return;
   }

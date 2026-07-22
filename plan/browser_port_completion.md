@@ -39,7 +39,7 @@ tests instead of treating previously checked items as proof by themselves.
 - Keyboard activation is an accessibility extension to the Java behavior; it
   does not change simulation parity after gameplay begins.
 - Tests may inject deterministic random values, stop the production timer, and
-  inspect game state through the existing `window.JavaCave` test surface.
+  inspect game state through the existing `window.JSCave` test surface.
   Production defaults must remain random and timer-driven.
 - Stable geometry and non-text pixels are checked exactly. Font rasterization
   may differ across operating systems, so automated image checks mask
@@ -172,20 +172,20 @@ tests instead of treating previously checked items as proof by themselves.
 ### 7. Verify standalone, offline, and deterministic packaging
 
 - [x] Add failing packaging tests that build the expected standalone HTML in
-  memory, compare it byte-for-byte with `javacave.html`, reject remaining local
+  memory, compare it byte-for-byte with `jscave.html`, reject remaining local
   asset references, and prove repeated generation is identical.
 - [x] Refactor `scripts/package.js` to expose deterministic build/check
   operations and a non-mutating `--check` mode while retaining the normal
   regeneration command.
-- [x] Add real-browser tests that load `javacave.html` directly from `file:`,
+- [x] Add real-browser tests that load `jscave.html` directly from `file:`,
   start gameplay with pointer and Enter paths, and complete a deterministic
   state transition with external networking unavailable.
 - [x] Record Chrome network events and assert that direct standalone play makes
   no resource request beyond the one local HTML document; also load the
   artifact from the local HTTP server and reject external origins.
 - [x] Run the same applicable title/start/scale/pixel smoke assertions against
-  both `index.html` and `javacave.html`.
-- [x] Regenerate `javacave.html`, run `--check`, and run all standalone tests.
+  both `index.html` and `jscave.html`.
+- [x] Regenerate `jscave.html`, run `--check`, and run all standalone tests.
 - [x] Commit the verified deterministic standalone delivery.
 
 ### 8. Add Chrome/Firefox compatibility and repeatability gates

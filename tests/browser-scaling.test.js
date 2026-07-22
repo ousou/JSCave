@@ -24,7 +24,7 @@ test('visible selector implements fixed scales, Auto fitting, resize stability, 
   try {
     await browser.resize(800, 1000);
     await browser.navigate(page);
-    await browser.evaluate('JavaCave.controller.stop()');
+    await browser.evaluate('JSCave.controller.stop()');
     await selectScale(browser, '1');
     assert.deepEqual(await display(browser), {
       width: 128, height: 160, backingWidth: 128, backingHeight: 160,
@@ -53,15 +53,15 @@ test('selector changes and viewport resize preserve engine identity, state, and 
   const browser = await CdpBrowser.launch();
   try {
     await browser.resize(640, 800); await browser.navigate(page);
-    await browser.evaluate(`JavaCave.controller.stop(); window.originalEngine = JavaCave.engine;
-      JavaCave.engine.random = () => .5; JavaCave.engine.setState(1); JavaCave.controller.advance()`);
-    const state = await browser.evaluate('JavaCave.test?.snapshot?.() ?? ({state:JavaCave.engine.state,gameCount:JavaCave.engine.gameCount,score:JavaCave.engine.score,y:JavaCave.engine.y,map:JavaCave.engine.map})');
+    await browser.evaluate(`JSCave.controller.stop(); window.originalEngine = JSCave.engine;
+      JSCave.engine.random = () => .5; JSCave.engine.setState(1); JSCave.controller.advance()`);
+    const state = await browser.evaluate('JSCave.test?.snapshot?.() ?? ({state:JSCave.engine.state,gameCount:JSCave.engine.gameCount,score:JSCave.engine.score,y:JSCave.engine.y,map:JSCave.engine.map})');
     const pixels = await browser.canvasPixels();
     await selectScale(browser, '4');
     await browser.resize(900, 900); await browser.evaluate('new Promise(requestAnimationFrame)');
     await selectScale(browser, 'auto');
-    assert.equal(await browser.evaluate('JavaCave.engine === originalEngine'), true);
-    assert.deepEqual(await browser.evaluate('({state:JavaCave.engine.state,gameCount:JavaCave.engine.gameCount,score:JavaCave.engine.score,y:JavaCave.engine.y,map:JavaCave.engine.map})'), {
+    assert.equal(await browser.evaluate('JSCave.engine === originalEngine'), true);
+    assert.deepEqual(await browser.evaluate('({state:JSCave.engine.state,gameCount:JSCave.engine.gameCount,score:JSCave.engine.score,y:JSCave.engine.y,map:JSCave.engine.map})'), {
       state: state.state, gameCount: state.gameCount, score: state.score, y: state.y, map: state.map,
     });
     assert.deepEqual(await browser.canvasPixels(), pixels);
@@ -80,12 +80,12 @@ for (const forcedScale of [1, 4]) {
     try {
       await browser.resize(800, 1000);
       await browser.navigate(`${page}?ignored=1`);
-      await browser.evaluate('JavaCave.controller.stop(); JavaCave.engine.random = () => .5');
+      await browser.evaluate('JSCave.controller.stop(); JSCave.engine.random = () => .5');
       await selectScale(browser, String(forcedScale));
       const point = await browser.evaluate(`(() => { const r=game.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; })()`);
       await browser.pointer('down', point.x, point.y); await browser.pointer('up', point.x, point.y);
-      await browser.evaluate('JavaCave.controller.advance(); JavaCave.controller.advance(); JavaCave.engine.y=-100; JavaCave.controller.advance()');
-      assert.equal(await browser.evaluate('JavaCave.engine.state'), 2);
+      await browser.evaluate('JSCave.controller.advance(); JSCave.controller.advance(); JSCave.engine.y=-100; JSCave.controller.advance()');
+      assert.equal(await browser.evaluate('JSCave.engine.state'), 2);
       assert.equal((await display(browser)).scale, String(forcedScale));
     } finally {
       await browser.close();

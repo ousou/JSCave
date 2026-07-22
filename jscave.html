@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JavaCave — browser edition</title>
+    <title>JSCave — browser edition</title>
     <style>:root {
   color-scheme: dark;
   font-family: Georgia, "Times New Roman", serif;
@@ -44,19 +44,19 @@ h1 {
 </style>
   </head>
   <body>
-    <main class="game-page" aria-label="JavaCave">
-      <h1>JavaCave</h1>
-      <canvas id="game" width="128" height="160" tabindex="0" role="img" aria-label="JavaCave game. Enter to start or restart; hold Space or pointer to fly.">JavaCave needs a browser with Canvas support.</canvas>
+    <main class="game-page" aria-label="JSCave">
+      <h1>JSCave</h1>
+      <canvas id="game" width="128" height="160" tabindex="0" role="img" aria-label="JSCave game. Enter to start or restart; hold Space or pointer to fly.">JSCave needs a browser with Canvas support.</canvas>
       <p id="controls">Enter to start/restart; hold Space or pointer to fly. Release to fall.</p>
       <label for="scale">Display scale</label>
       <select id="scale" aria-label="Display scale">
         <option value="auto">Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option><option value="5">5×</option><option value="6">6×</option><option value="7">7×</option><option value="8">8×</option><option value="9">9×</option><option value="10">10×</option><option value="11">11×</option><option value="12">12×</option><option value="13">13×</option><option value="14">14×</option><option value="15">15×</option><option value="16">16×</option>
       </select>
-      <noscript>JavaScript is required to play JavaCave.</noscript>
+      <noscript>JavaScript is required to play JSCave.</noscript>
     </main>
     <script>(function exposeScaling(root, factory) {
   const api = factory();
-  root.JavaCaveScaling = api;
+  root.JSCaveScaling = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createScaling() {
   const LOGICAL_WIDTH = 128;
@@ -94,7 +94,7 @@ h1 {
 });
 </script>
     <script>(function exposeEngine(root, factory) {
-  const api = factory(); root.JavaCaveEngine = api;
+  const api = factory(); root.JSCaveEngine = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createEngine() {
   const STATE = Object.freeze({ TITLE: 0, GAME: 1, OVER: 2 });
@@ -173,7 +173,7 @@ h1 {
   return { Engine, STATE, trunc };
 });
 </script>
-    <script>(function exposeRenderer(root, factory) { const api = factory(); root.JavaCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
+    <script>(function exposeRenderer(root, factory) { const api = factory(); root.JSCaveRenderer = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   const STATE = { TITLE: 0, GAME: 1, OVER: 2 };
   class Renderer {
     constructor(context) { this.ctx = context; this.ctx.textBaseline = 'alphabetic'; this.ctx.lineWidth = 1; }
@@ -203,7 +203,7 @@ h1 {
   return { Renderer };
 });
 </script>
-    <script>(function exposeController(root, factory) { const api = factory(); root.JavaCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
+    <script>(function exposeController(root, factory) { const api = factory(); root.JSCaveController = api; if (typeof module !== 'undefined' && module.exports) module.exports = api; })(globalThis, function () {
   class Controller {
     constructor({ engine, renderer, scheduler = globalThis, canvas, windowTarget = globalThis.window, documentTarget = globalThis.document }) { this.engine = engine; this.renderer = renderer; this.scheduler = scheduler; this.canvas = canvas; this.windowTarget = windowTarget; this.documentTarget = documentTarget; this.timer = null; }
     advance() { this.engine.tick(); this.renderer.render(this.engine); }
@@ -237,12 +237,12 @@ h1 {
     <script>(function bootstrapBrowserShell() {
   const canvas = document.getElementById('game');
   if (!canvas) return;
-  const options = window.JavaCaveTestOptions || {};
-  const engine = new window.JavaCaveEngine.Engine();
-  const renderer = new window.JavaCaveRenderer.Renderer(canvas.getContext('2d'));
+  const options = window.JSCaveTestOptions || {};
+  const engine = new window.JSCaveEngine.Engine();
+  const renderer = new window.JSCaveRenderer.Renderer(canvas.getContext('2d'));
   let scaleMode = options.scaleMode === undefined ? 'auto' : options.scaleMode;
   const scale = () => {
-    const decision = window.JavaCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
     if (decision.backingReset) renderer.render(engine);
     return decision;
   };
@@ -253,7 +253,7 @@ h1 {
     selector.value = String(scaleMode);
     selector.addEventListener('change', () => { scaleMode = selector.value === 'auto' ? 'auto' : Number(selector.value); scale(); });
   }
-  const controller = new window.JavaCaveController.Controller({ engine, renderer, canvas });
+  const controller = new window.JSCaveController.Controller({ engine, renderer, canvas });
   controller.bind();
   controller.start();
   const snapshot = () => ({
@@ -303,7 +303,7 @@ h1 {
       return snapshot();
     },
   } : undefined;
-  window.JavaCave = { engine, renderer, controller, ...(test ? { test } : {}) };
+  window.JSCave = { engine, renderer, controller, ...(test ? { test } : {}) };
   canvas.dataset.ready = 'true';
 })();
 </script>

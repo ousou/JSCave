@@ -95,7 +95,7 @@ function verifyExport() {
     .sort();
   for (const browserTest of browserTests) run(process.execPath, [`tests/${browserTest}`], { env: environment });
   run(process.execPath, ['scripts/package.js', '--check'], { env: environment });
-  const classes = fs.mkdtempSync(path.join(os.tmpdir(), 'javacave-classes-'));
+  const classes = fs.mkdtempSync(path.join(os.tmpdir(), 'JavaCave-classes-'));
   try {
     run('javac', ['-Xlint:all', '-d', classes, 'JavaCave.java']);
   } finally {
@@ -111,7 +111,7 @@ if (exportedMode) {
 } else {
   const statusBefore = run('git', ['status', '--porcelain'], { cwd: root }).stdout;
   assert.equal(statusBefore, '', 'worktree must be clean before release verification');
-  const exported = fs.mkdtempSync(path.join(os.tmpdir(), 'javacave-release-'));
+  const exported = fs.mkdtempSync(path.join(os.tmpdir(), 'jscave-release-'));
   try {
     exportHead(exported);
     run(process.execPath, ['scripts/release-verify.js', '--exported'], {

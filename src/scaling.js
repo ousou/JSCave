@@ -1,6 +1,6 @@
 (function exposeScaling(root, factory) {
   const api = factory();
-  root.JavaCaveScaling = api;
+  root.JSCaveScaling = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createScaling() {
   const LOGICAL_WIDTH = 128;

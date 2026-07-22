@@ -32,7 +32,7 @@ class CdpBrowser {
   static async launch(options = {}) {
     const executable = options.executable || process.env.CHROME_BIN || 'google-chrome';
     const timeout = options.timeout || DEFAULT_TIMEOUT;
-    const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'javacave-chrome-'));
+    const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'jscave-chrome-'));
     const args = [
       '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-background-networking',
       '--disable-component-update', '--disable-default-apps', '--disable-extensions',

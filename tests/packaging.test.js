@@ -11,16 +11,16 @@ test('standalone build is deterministic, byte-current, and contains no asset ref
   const first = buildStandalone();
   const second = buildStandalone();
   assert.equal(first, second);
-  assert.equal(first, fs.readFileSync(path.join(root, 'javacave.html'), 'utf8'));
+  assert.equal(first, fs.readFileSync(path.join(root, 'jscave.html'), 'utf8'));
   assert.equal(checkStandalone(), true);
   assert.doesNotMatch(first, /<(?:script|img)\b[^>]*\bsrc\s*=/i);
   assert.doesNotMatch(first, /<link\b[^>]*\bhref\s*=/i);
   assert.doesNotMatch(first, /\bhttps?:\/\//i);
-  for (const marker of ['JavaCaveScaling', 'JavaCaveEngine', 'JavaCaveRenderer', 'JavaCaveController']) assert.match(first, new RegExp(marker));
+  for (const marker of ['JSCaveScaling', 'JSCaveEngine', 'JSCaveRenderer', 'JSCaveController']) assert.match(first, new RegExp(marker));
 });
 
 test('package --check is non-mutating and reports a current artifact', () => {
-  const artifact = path.join(root, 'javacave.html');
+  const artifact = path.join(root, 'jscave.html');
   const before = fs.readFileSync(artifact);
   const result = spawnSync(process.execPath, ['scripts/package.js', '--check'], { cwd: root, encoding: 'utf8' });
   assert.ifError(result.error);

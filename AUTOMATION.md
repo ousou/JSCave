@@ -1,4 +1,4 @@
-# JavaCave automation and release guide
+# JSCave automation and release guide
 
 Written by: Codex on behalf of Sebastian
 
@@ -77,7 +77,7 @@ node tests/browser-standalone.test.js
 ```
 
 Packaging is deterministic and `--check` does not write. Browser checks open
-`javacave.html` directly through `file:`, exercise pointer and Enter starts,
+`jscave.html` directly through `file:`, exercise pointer and Enter starts,
 complete a deterministic transition, and assert the only direct-file requests
 are the local HTML documents. Source and standalone pages are also compared
 over local HTTP, with external origins rejected.

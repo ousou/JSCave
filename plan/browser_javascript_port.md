@@ -10,12 +10,12 @@ provide evidence.
 
 ## Goal
 
-Port JavaCave to browser-native JavaScript while preserving the Java version's
+Port JavaCave to browser-native JavaScript as JSCave while preserving the Java version's
 appearance, 10 Hz game rhythm, controls, scoring, cave generation, collision
 rules, and title/game/game-over flow. The finished game should open as a static
 page without a build step, network access, third-party libraries, or installed
 runtime dependencies. Maintainable source files will also produce one tested,
-self-contained `javacave.html` release artifact.
+self-contained `jscave.html` release artifact.
 
 ## Investigated baseline
 
@@ -68,7 +68,7 @@ The proposed source layout is `index.html`, `styles.css`, `src/engine.js`,
 engine and renderer through small dependency-free exports. A browser test page
 and shell/Node runner will exercise the same production files in headless
 Chrome. A deterministic standard-library-only packaging script will inline the
-verified source into `javacave.html`, and the same browser suite will test both
+verified source into `jscave.html`, and the same browser suite will test both
 the source page and that release artifact.
 
 ## Assumptions and non-goals
@@ -235,7 +235,7 @@ the source page and that release artifact.
   changes, resize during play, background/foreground transitions, and a narrow
   viewport without changing logical game state or canvas pixels.
 - [x] Add a deterministic standard-library-only packaging script that inlines
-  the verified CSS and JavaScript into a distributable `javacave.html`, then
+  the verified CSS and JavaScript into a distributable `jscave.html`, then
   test that artifact with the same browser suite and verify it makes no external
   requests.
 - [x] Run the full automated suite repeatedly with fixed seeds to rule out
@@ -259,7 +259,7 @@ the source page and that release artifact.
 
 ## Acceptance criteria
 
-- Opening the delivered `javacave.html` directly in a supported browser starts
+- Opening the delivered `jscave.html` directly in a supported browser starts
   at a faithful JavaCave/SFCave title screen with no server, install, build,
   network, console error, or third-party runtime code.
 - Pointer/touch hold and Space hold produce the same acceleration, score,
@@ -281,7 +281,7 @@ the source page and that release artifact.
 Confirmed by Sebastian on 2026-07-20:
 
 - Keep maintainable source files and generate a tested, self-contained
-  `javacave.html` release artifact.
+  `jscave.html` release artifact.
 - Target faithful cross-platform dimensions, palette, layout, animation, and
   gameplay. Test geometry and non-text colors pixel-exactly, but accept normal
   platform serif-font rasterization differences and do not bundle a font.

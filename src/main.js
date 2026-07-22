@@ -1,12 +1,12 @@
 (function bootstrapBrowserShell() {
   const canvas = document.getElementById('game');
   if (!canvas) return;
-  const options = window.JavaCaveTestOptions || {};
-  const engine = new window.JavaCaveEngine.Engine();
-  const renderer = new window.JavaCaveRenderer.Renderer(canvas.getContext('2d'));
+  const options = window.JSCaveTestOptions || {};
+  const engine = new window.JSCaveEngine.Engine();
+  const renderer = new window.JSCaveRenderer.Renderer(canvas.getContext('2d'));
   let scaleMode = options.scaleMode === undefined ? 'auto' : options.scaleMode;
   const scale = () => {
-    const decision = window.JavaCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
+    const decision = window.JSCaveScaling.applyScale(canvas, scaleMode, window.innerWidth, window.innerHeight);
     if (decision.backingReset) renderer.render(engine);
     return decision;
   };
@@ -17,7 +17,7 @@
     selector.value = String(scaleMode);
     selector.addEventListener('change', () => { scaleMode = selector.value === 'auto' ? 'auto' : Number(selector.value); scale(); });
   }
-  const controller = new window.JavaCaveController.Controller({ engine, renderer, canvas });
+  const controller = new window.JSCaveController.Controller({ engine, renderer, canvas });
   controller.bind();
   controller.start();
   const snapshot = () => ({
@@ -67,6 +67,6 @@
       return snapshot();
     },
   } : undefined;
-  window.JavaCave = { engine, renderer, controller, ...(test ? { test } : {}) };
+  window.JSCave = { engine, renderer, controller, ...(test ? { test } : {}) };
   canvas.dataset.ready = 'true';
 })();

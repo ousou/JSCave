@@ -1,5 +1,5 @@
 (function exposeEngine(root, factory) {
-  const api = factory(); root.JavaCaveEngine = api;
+  const api = factory(); root.JSCaveEngine = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis === 'undefined' ? this : globalThis, function createEngine() {
   const STATE = Object.freeze({ TITLE: 0, GAME: 1, OVER: 2 });

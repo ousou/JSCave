@@ -219,7 +219,7 @@ tests instead of treating previously checked items as proof by themselves.
   overstated, and link to this completion plan.
 - [x] Add a standard-library release-verification command that runs unit and
   browser suites, packaging `--check`, no-external-resource checks, and
-  `javac -Xlint:all -d <temporary-directory> JavaCave.java` without polluting
+  `javac -Xlint:all -d <temporary-directory> reference/java/JavaCave.java` without polluting
   the repository.
 - [x] Run release verification from a clean exported `HEAD`, including direct
   file, local HTTP, Chrome, Firefox-or-explicit-skip, Java compilation, artifact

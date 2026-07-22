@@ -19,7 +19,7 @@ self-contained `jscave.html` release artifact.
 
 ## Investigated baseline
 
-- `JavaCave.java` is the complete game. It has no image, audio, data, or network
+- `reference/java/JavaCave.java` is the complete game. It has no image, audio, data, or network
   assets to migrate.
 - The game draws into a 128 × 160 logical surface. The cave occupies the upper
   128 pixels and the score strip occupies the bottom 32 pixels.
@@ -102,13 +102,13 @@ the source page and that release artifact.
 - [x] Add a concise behavior/parity document that transcribes every constant,
   initial value, state transition, tick order, random-number consumption point,
   draw coordinate, collision boundary, scoring rule, and restart latch from
-  `JavaCave.java`; explicitly note Java integer truncation and inclusive
+  `reference/java/JavaCave.java`; explicitly note Java integer truncation and inclusive
   comparisons that JavaScript must reproduce.
 - [x] Add table-driven characterization cases for title-to-game, acceleration
   clamps, cave movement bounds, every-10-ticks narrowing/obstacle creation,
   safe and colliding obstacle edges, score increments, death animation timing,
   high-score promotion, click-to-restart, and the 100-tick automatic return.
-- [x] Compile the unchanged Java source with `javac -Xlint:all JavaCave.java`
+- [x] Compile the unchanged Java source with `javac -Xlint:all reference/java/JavaCave.java`
   and, where the environment permits, capture reference title screens at 1×
   and 4× using `AUTOMATION.md`; record expected warnings and capture dimensions.
 - [x] Commit the verified specification, characterization fixtures, and any
@@ -264,7 +264,7 @@ the source page and that release artifact.
   network, console error, or third-party runtime code.
 - Pointer/touch hold and Space hold produce the same acceleration, score,
   procedural cave behavior, collisions, game-over flow, and restart behavior as
-  `JavaCave.java` at one simulation tick per 100 ms.
+  `reference/java/JavaCave.java` at one simulation tick per 100 ms.
 - The canvas always has a 128 × 160 logical backing store and uses crisp
   nearest-neighbor enlargement without changing simulation results on resize.
 - `Auto` chooses the largest fitting integer display scale, while the visible

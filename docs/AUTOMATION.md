@@ -17,7 +17,7 @@ pixel, screenshot, Chrome, and Firefox-or-explicit-skip checks; runs
 `node scripts/package.js --check`; and compiles:
 
 ```bash
-javac -Xlint:all -d <temporary-directory> JavaCave.java
+javac -Xlint:all -d <temporary-directory> reference/java/JavaCave.java
 ```
 
 No `.class` file or other build output is written into the repository. The

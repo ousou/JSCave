@@ -98,7 +98,8 @@ and that the JDK's `appletviewer` tool was removed in JDK 11.
 Two practical comparison routes remain:
 
 1. Compile and run this repository's desktop wrapper with Java 21, following
-   `README.md`. This exercises the same game logic without a browser plug-in.
+   [`README.md`](../../README.md). This exercises the same game logic without a
+   browser plug-in.
 2. Use a compatibility runtime such as
    [CheerpJ](https://cheerpj.com/docs/getting-started/Java-applet), which runs
    Java 8 applets through WebAssembly and JavaScript in a modern browser.

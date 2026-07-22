@@ -11,7 +11,7 @@ test('release command verifies a clean export, browsers, packaging, Java, and ar
     "name.endsWith('.test.js')",
     "name.startsWith('browser-')",
     "['scripts/package.js', '--check']",
-    "['-Xlint:all', '-d', classes, 'JavaCave.java']",
+    "['-Xlint:all', '-d', classes, 'reference/java/JavaCave.java']",
     'assertNoUnexpectedArtifacts',
     'trackedSnapshot(root)',
   ]) assert.match(source, new RegExp(evidence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));

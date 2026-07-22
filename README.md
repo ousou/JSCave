@@ -1,5 +1,7 @@
 # JSCave
 
+Written by: Codex on behalf of Sebastian
+
 JSCave is a dependency-free browser port of the [Infamous Worm Game](http://www.liquidcode.org/worm.html), a.k.a JavaCave.
 
 You can play it by accessing this link: TODO.
@@ -74,9 +76,10 @@ binaries, and proves neither the export nor worktree changed.
 - `index.html`, `styles.css`, `src/` — maintainable browser source.
 - `jscave.html` — generated, byte-reproducible standalone release.
 - `tests/` — Node, CDP Chrome, and portable Chrome/Firefox checks.
-- `reference/` — Java title references and reviewed browser frames.
+- `reference/` — Java title references, reviewed browser frames, and the legacy Java source.
 - `scripts/` — packaging, repeatability, and release verification.
-- `JavaCave.java` — legacy Java behavioral reference.
+- `reference/java/JavaCave.java` — legacy Java behavioral reference.
+- `reference/java/ORIGINAL_APPLET.md` — original applet provenance and execution notes.
 - `docs/java-parity.md` — transcribed Java behavior and drawing rules.
 - `docs/AUTOMATION.md` — screenshot and release-review procedure.
 
@@ -86,9 +89,10 @@ The browser edition is primary. To compile and run the historical Java version,
 use a JDK with desktop AWT support:
 
 ```bash
-javac -Xlint:all -d /tmp/JavaCave-classes JavaCave.java
+javac -Xlint:all -d /tmp/JavaCave-classes reference/java/JavaCave.java
 java -cp /tmp/JavaCave-classes JavaCave
 ```
 
 The legacy Applet/AWT APIs produce expected deprecation/removal warnings. See
-`ORIGINAL_APPLET.md` for provenance and modern execution notes.
+[`reference/java/ORIGINAL_APPLET.md`](reference/java/ORIGINAL_APPLET.md) for
+provenance and modern execution notes.

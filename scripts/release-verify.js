@@ -97,7 +97,7 @@ function verifyExport() {
   run(process.execPath, ['scripts/package.js', '--check'], { env: environment });
   const classes = fs.mkdtempSync(path.join(os.tmpdir(), 'JavaCave-classes-'));
   try {
-    run('javac', ['-Xlint:all', '-d', classes, 'JavaCave.java']);
+    run('javac', ['-Xlint:all', '-d', classes, 'reference/java/JavaCave.java']);
   } finally {
     fs.rmSync(classes, { recursive: true, force: true });
   }

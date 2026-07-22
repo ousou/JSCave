@@ -2,9 +2,10 @@
 
 > Written by Codex on behalf of Sebastian.
 
-This is the JSCave executable-port reference for `JavaCave.java`. It describes
-the decompiled Java implementation as it behaves, including choices that are
-easy to change accidentally in JavaScript.
+This is the JSCave executable-port reference for
+`reference/java/JavaCave.java`. It describes the decompiled Java implementation
+as it behaves, including choices that are easy to change accidentally in
+JavaScript.
 
 ## Constants and state
 

@@ -1,7 +1,5 @@
 # JSCave
 
-Written by: Codex on behalf of Sebastian
-
 JSCave is a dependency-free browser port of the [Infamous Worm Game](http://www.liquidcode.org/worm.html), a.k.a JavaCave.
 
 You can play it at [ousou.github.io/JSCave](https://ousou.github.io/JSCave/).

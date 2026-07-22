@@ -2,9 +2,13 @@
 
 Written by: Codex on behalf of Sebastian
 
-`title-1x.png` and `title-4x.png` are the JavaCave drawing references. The
-`browser-*-1x.png` and `browser-*-4x.png` files are deterministic JSCave
-Chrome captures of the named browser frames.
+`title-1x.png` and `title-4x.png` are JavaCave title references.
+`java-{initial-game,mid-game,collision,game-over}-{1x,4x}.png` are captures of
+the matching legacy JavaCave frames. The 4× files use the Java reference's
+nearest-neighbor display scaling.
+
+`browser-*-1x.png` and `browser-*-4x.png` files are deterministic JSCave Chrome
+captures of the named browser frames.
 
 `java/` contains the legacy JavaCave source and its applet provenance. They are
 reference material, not part of the JavaScript runtime.
